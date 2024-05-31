@@ -13,4 +13,5 @@ struct RoomViewModel {
     var creatorID: UUID?
     var isPrivate: Bool
     var image: String?
+    var desctiption: String
 }

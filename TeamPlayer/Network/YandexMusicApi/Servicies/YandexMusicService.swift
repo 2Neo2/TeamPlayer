@@ -33,6 +33,21 @@ final class YandexMusicService: YandexMusicServiceProtocol {
         task.resume()
     }
     
+    func getPublicOnDayTracks(completion: @escaping (Result<[TrackModel], Error>) -> Void) {
+        let request = playlistOfTheDayRequest(token: Constants.Network.yaToken)
+        
+        let task = urlSession.objectTask(for: request) { (result: Result<[TrackModel], Error>) in
+            switch result {
+            case .success(let models):
+                completion(.success(models))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
+    
     func getSearchTracks(search value: String, completion: @escaping (Result<TrackModel, Error>) -> Void) {
         let request = searchSongsRequest(value: value, token: Constants.Network.yaToken)
         
@@ -105,7 +120,7 @@ final class YandexMusicService: YandexMusicServiceProtocol {
     func likeTrack(trackID value: String, completion: @escaping(Result<String, Error>) -> Void) {
         let request = likeRequest(token: Constants.Network.yaToken, value: value)
         
-        let task = urlSession.objectTask(for: request) { (result: Result<Bool, Error>) in
+        let task = urlSession.objectTask(for: request) { (result: Result<StatusTrackModel, Error>) in
             switch result {
             case .success(_):
                 completion(.success("ok"))
@@ -120,7 +135,7 @@ final class YandexMusicService: YandexMusicServiceProtocol {
     func dislikeTrack(trackID value: String, completion: @escaping(Result<String, Error>) -> Void) {
         let request = dislikeRequest(token: Constants.Network.yaToken, value: value)
         
-        let task = urlSession.objectTask(for: request) { (result: Result<Bool, Error>) in
+        let task = urlSession.objectTask(for: request) { (result: Result<StatusTrackModel, Error>) in
             switch result {
             case .success(_):
                 completion(.success("ok"))
@@ -160,5 +175,9 @@ extension YandexMusicService {
     
     private func dislikeRequest(token: String, value: String) -> URLRequest {
         URLRequest.makeHttpRequest(path: "/dislike_track/\(value)?ya_token=\(token)", httpMethod: "GET", rote: Constants.Network.defaultYandexMusicBaseURL)
+    }
+    
+    private func playlistOfTheDayRequest(token: String) -> URLRequest {
+        URLRequest.makeHttpRequest(path: "/playlist_of_the_day?ya_token=\(token)", httpMethod: "GET", rote: Constants.Network.defaultYandexMusicBaseURL)
     }
 }

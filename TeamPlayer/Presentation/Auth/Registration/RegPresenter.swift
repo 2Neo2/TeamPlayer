@@ -30,7 +30,7 @@ final class RegPresenter: RegPresenterProtocol {
             guard let self else { return }
             DispatchQueue.main.async {
                 switch result {
-                case .success(let userID):
+                case .success(_):
                     self.router?.openAuthFlowWithSnack()
                 case .failure(let error):
                     self.view?.showSomeError(with: error.localizedDescription)

@@ -21,6 +21,20 @@ final class PlaylistPresenter: PlaylistPresenterProtocol {
         router?.openMusicFlow(with: model)
     }
     
+    func deleteTrackFromPlaylist(with playlistID: UUID?, in trackID: UUID) {
+        guard let playlistID = playlistID, let token = UserDataStorage().token else { return }
+        
+        vaporService.removeTrack(token: token, with: trackID, playlistID: playlistID) { [weak self] result in
+            switch result {
+            case .success(_):
+                self?.fetchData(with: playlistID)
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
+    }
+    
     func fetchData(with playlistId: UUID?) {
         UIBlockingProgressHUD.show()
         guard let token = UserDataStorage().token,

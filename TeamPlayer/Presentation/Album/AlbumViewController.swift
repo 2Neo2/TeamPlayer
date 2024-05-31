@@ -141,8 +141,7 @@ extension AlbumViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let release = tracks[indexPath.row]
-        
-        // TODO: Listen Music.
+        MiniPlayerService.shared.currentTrack = release
     }
     
     static func createCollectionViewLayout() -> NSCollectionLayoutSection {

@@ -9,32 +9,141 @@ import Foundation
 
 protocol SelectedRoomPresenterProtocol {
     func openMembersFlow(with id: UUID?)
-    func openUserDataFlow()
-    func openAccessFlow()
-    func opeHelpFlow()
     func fetchUserData(by id: UUID)
+    func fetchChatHistory(by id: UUID?)
+    func fetchRoomPlaylist(with id: UUID)
+    func fetchMessage(with message: String, roomID room: UUID?)
 }
 
 final class SelectedRoomPresenter: SelectedRoomPresenterProtocol {
     weak var view: SelectedRoomViewController?
     var router: SelectedRoomRouter?
     private var userService = UserService()
+    private var roomService = RoomService()
+    private var socketManager = SocketManager()
+    private var chatService = ChatService()
     
     func openMembersFlow(with id: UUID?) {
         guard let id = id else { return }
         router?.openMembersFlow(with: id)
     }
     
-    func openUserDataFlow() {
-        //router?.openUserDataFlow()
+    func exitRoom(with roomID: UUID, _ creator: UUID) {
+        guard let userID = userService.userID, let token = userService.userToken else { return }
+        if userID == creator.uuidString {
+            roomService.closeRoom(with: roomID.uuidString, token: token) { [weak self] result in
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self?.hideView()
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    break
+                }
+            }
+        } else {
+            roomService.exitRoom(with: roomID.uuidString, token: token) { [weak self] result in
+                switch result {
+                case .success(_):
+                    DispatchQueue.main.async {
+                        self?.hideView()
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    break
+                }
+            }
+        }
     }
     
-    func openAccessFlow() {
-        //router?.openAccessFlow()
+    func fetchRoomPlaylist(with id: UUID) {
+        
     }
     
-    func opeHelpFlow() {
-        //router?.opeHelpFlow()
+    func fetchChatHistory(by id: UUID?) {
+        guard let token = UserDataStorage().token,
+              let roomId = id
+        else { return }
+        
+        var resultData = [ChatMessageViewModel]()
+        var group = DispatchGroup()
+        group.enter()
+        
+        chatService.fetchChatHistory(token: token, with: roomId) { [weak self] result in
+            defer {
+                group.leave()
+            }
+            switch result {
+            case .success(let models):
+                models.forEach { model in
+                    group.enter()
+                    self?.userService.fetchUserByIdWithData(id: model.creator.id) { result in
+                        defer {
+                            group.leave()
+                        }
+                        switch result {
+                        case .success(let user):
+                            if let user = user {
+                                DispatchQueue.main.async {
+                                    resultData.append(ChatMessageViewModel(
+                                        message: model.message,
+                                        userId: user.id,
+                                        userName: user.name ?? "",
+                                        userImageData: user.imageData))
+                                }
+                            }
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                        
+                    }
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
+        
+        group.notify(queue: .main) {
+            self.view?.updateMessageCollectionView(with: resultData)
+        }
+    }
+
+    
+    func connectToChat() {
+        let link = Constants.Network.defaultVaporBaseURL + "/chats/connect"
+        guard let url = URL(string: link) else { return }
+        self.socketManager.connectToChat(with: url)
+        self.socketManager.observeMessages { [weak self] message in
+            guard let line = message else { return }
+            self?.userService.fetchUserByIdWithData(id: line.creator) { [weak self] result in
+                switch result {
+                case .success(let model):
+                    DispatchQueue.main.async {
+                        if let model = model {
+                            DispatchQueue.main.async {
+                                self?.view?.addMessageToCollectionView(message: ChatMessageViewModel(message: line.message, userId: model.id, userName: model.name ?? "", userImageData: model.imageData))
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    break
+                }
+            }
+        }
+    }
+    
+    func fetchMessage(with message: String, roomID room: UUID?) {
+        guard let userID = userService.userID, let roomID = room else { return }
+        let model = ChatMessageModel(
+            id: UUID(),
+            message: message,
+            creator: IdModel(id: UUID(uuidString: userID)!),
+            musicRoom: IdModel(id: roomID)
+        )
+        socketManager.send(message: model)
     }
     
     func openSearchFlow() {

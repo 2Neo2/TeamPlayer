@@ -121,7 +121,6 @@ open class SnackBar: UIView, SnackBarPresentable {
     public func show() {
         constraintSuperView(with: contextView)
         animation(with: -CGFloat(style.padding)) { _ in
-            
             if self.duration != .infinite {
                 self.dismissTimer = Timer.init(
                     timeInterval: TimeInterval(self.duration.value),

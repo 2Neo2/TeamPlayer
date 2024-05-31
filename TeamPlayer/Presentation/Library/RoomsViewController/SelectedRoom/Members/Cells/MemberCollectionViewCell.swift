@@ -6,45 +6,61 @@
 //
 
 import UIKit
-import Kingfisher
 
 class MembersCollectionViewCell: UICollectionViewCell {
     static let identifier = "MembersCollectionViewCell"
     
-    private lazy var musicImageView: UIImageView = {
+    private lazy var userImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 6
+        imageView.layer.cornerRadius = 25
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    private lazy var titleMusicLabel: UILabel = {
+    private lazy var userNameLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.Font.getFont(name: "Black", size: 13)
         label.numberOfLines = 0
         label.textColor = .black
         return label
     }()
     
-    private lazy var artistLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = Constants.Font.getFont(name: "Black", size: 10)
-        label.textColor = Constants.Colors.placeholder
-        return label
+    private lazy var removeUserButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(removeUserButtonTapped), for: .touchUpInside)
+        button.contentMode = .scaleAspectFill
+        return button
     }()
     
-    private lazy var musicNoteIcon: UIImageView = {
+    private lazy var removeUserIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = Constants.Images.musicNoteIcon
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.tintColor = Constants.Colors.general
+        imageView.image = Constants.Images.removeUserIcon
         return imageView
     }()
+    
+    private lazy var changeUserAdminButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(changeUserAdminButtonTapped), for: .touchUpInside)
+        button.contentMode = .scaleAspectFill
+        return button
+    }()
+    
+    private lazy var changeUserAdminIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = Constants.Images.userDjIcon
+        return imageView
+    }()
+    
+    private var currentModel: UserModel?
+    var deleteAction: (() -> Void)?
+    var setDjAction: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,54 +74,63 @@ class MembersCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with model: UserModel) {
-        titleMusicLabel.text = model.name
-        
+        userNameLabel.text = model.name
+        if model.imageData.isEmpty == false {
+            if let data = Data(base64Encoded: model.imageData) {
+                userImageView.image = UIImage(data: data)
+            }
+        } else {
+            self.userImageView.image = Constants.Images.defaultAccountIcon
+        }
+    }
+    
+    @objc
+    private func removeUserButtonTapped() {
+        if let action = self.deleteAction {
+            action()
+        }
+    }
+    
+    @objc
+    private func changeUserAdminButtonTapped() {
+        if let action = self.setDjAction {
+            action()
+        }
     }
 }
 
 extension MembersCollectionViewCell {
     private func insertViews() {
-        contentView.addSubview(musicImageView)
-        contentView.addSubview(titleMusicLabel)
-        contentView.addSubview(artistLabel)
-        contentView.addSubview(musicNoteIcon)
+        removeUserButton.addSubview(removeUserIcon)
+        changeUserAdminButton.addSubview(changeUserAdminIcon)
+        contentView.addSubview(userImageView)
+        contentView.addSubview(userNameLabel)
+        contentView.addSubview(removeUserButton)
+        contentView.addSubview(changeUserAdminButton)
     }
     
     private func setupViews() {
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 10
-        contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = Constants.Colors.general?.cgColor
     }
     
     private func layoutViews() {
-        musicImageView.pinTop(to: self.contentView, 13)
-        musicImageView.pinLeft(to: self.contentView, 13)
-        musicImageView.pinBottom(to: self.contentView, 13)
-        musicImageView.setWidth(50)
+        userImageView.pinTop(to: self.contentView, 13)
+        userImageView.pinLeft(to: self.contentView, 13)
+        userImageView.pinBottom(to: self.contentView, 13)
+        userImageView.setWidth(50)
         
-        titleMusicLabel.pinLeft(to: musicImageView.trailingAnchor, 11)
-        titleMusicLabel.pinTop(to: self.contentView, 14)
-        titleMusicLabel.setWidth(200)
+        userNameLabel.pinLeft(to: userImageView.trailingAnchor, 11)
+        userNameLabel.pinCenterY(to: self.contentView)
+        userNameLabel.setWidth(200)
         
-        artistLabel.pinTop(to: titleMusicLabel.bottomAnchor, 2)
-        artistLabel.pinLeft(to: musicImageView.trailingAnchor, 11)
+        changeUserAdminButton.pinCenterY(to: contentView)
+        changeUserAdminButton.pinRight(to: contentView, 15)
+        changeUserAdminIcon.pin(to: changeUserAdminButton)
         
-        musicNoteIcon.pinCenterY(to: contentView)
-        musicNoteIcon.pinRight(to: contentView, 15)
-        musicNoteIcon.setWidth(30)
-        musicNoteIcon.setHeight(30)
-    }
-    
-    private func fetchImage(with url: URL,  completion: @escaping () -> Void) {
-        musicImageView.kf.indicatorType = .activity
-        musicImageView.kf.setImage(with: url) { result in
-            switch result {
-            case .success:
-                completion()
-            case .failure:
-                break
-            }
-        }
+        removeUserButton.pinCenterY(to: contentView)
+        removeUserButton.pinRight(to: changeUserAdminButton.leadingAnchor, 10)
+        
+        removeUserIcon.pin(to: removeUserButton)
     }
 }

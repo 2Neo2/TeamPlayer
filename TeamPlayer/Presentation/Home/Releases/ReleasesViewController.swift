@@ -11,7 +11,7 @@ final class ReleasesViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Новые релизы"
+        label.text = "Новые треки в этом месяце"
         label.font = Constants.Font.getFont(name: "Bold", size: 20)
         label.textColor = .black
         return label

@@ -32,4 +32,10 @@ enum MusicPlayerModel {
         struct Response { }
         struct ViewModel { }
     }
+    
+    enum Pause {
+        struct Request { }
+        struct Response { }
+        struct ViewModel { }
+    }
 }

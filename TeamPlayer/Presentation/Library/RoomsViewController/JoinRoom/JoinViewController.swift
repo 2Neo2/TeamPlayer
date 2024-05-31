@@ -28,6 +28,8 @@ final class JoinViewController: UIViewController {
         field.backgroundColor = .white
         field.placeholder = "Код сообщества"
         field.layer.cornerRadius = 10
+        field.autocorrectionType = .no
+        field.autocapitalizationType = .none
         field.font = Constants.Font.getFont(name: "Bold", size: 17)
         return field
     }()

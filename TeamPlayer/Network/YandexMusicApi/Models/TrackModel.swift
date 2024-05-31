@@ -11,10 +11,12 @@ struct TrackModel: Decodable {
     let trackID: Int
     let title, artist: String
     let img, downloadLink: String
-
+    let duration: Int
+    
     enum CodingKeys: String, CodingKey {
         case trackID = "track_id"
         case title, artist, img
         case downloadLink = "download_link"
+        case duration
     }
 }

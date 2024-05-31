@@ -10,7 +10,6 @@ import UIKit
 final class PublicRoomsViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Публичные сообщества"
         label.font = Constants.Font.getFont(name: "Bold", size: 20)
         label.textColor = .black
@@ -21,9 +20,33 @@ final class PublicRoomsViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { _, _ -> NSCollectionLayoutSection? in
             PublicRoomsViewController.createCollectionViewLayout()
         })
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
         return collectionView
+    }()
+    
+    private lazy var searchButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = Constants.Colors.backgroundColor
+        button.addTarget(self, action: #selector(searchButtonTapped), for: .touchUpInside)
+        button.clipsToBounds = true
+        return button
+    }()
+    
+    private lazy var searchIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = Constants.Images.searchButton
+        imageView.contentMode = .scaleAspectFill
+        imageView.tintColor = .black
+        return imageView
+    }()
+    
+    private lazy var infoLabel: UILabel = {
+        let label = UILabel()
+        label.isHidden = true
+        label.text = "Сообществ пока нет"
+        label.font = Constants.Font.getFont(name: "Italic", size: 20)
+        label.textColor = .black
+        return label
     }()
     
     var presenter: PublicRoomsPresenter?
@@ -39,16 +62,32 @@ final class PublicRoomsViewController: UIViewController {
     }
     
     func configureData(publicRooms models: [PublicRoomsCellViewModel]) {
-        rooms.append(contentsOf: models)
-        collectionView.reloadData()
+        if models.count == 0 {
+            infoLabel.isHidden = false
+            collectionView.isHidden = true
+        } else {
+            rooms = models
+            infoLabel.isHidden = true
+            collectionView.isHidden = false
+            collectionView.reloadData()
+        }
+        
         UIBlockingProgressHUD.dismiss()
+    }
+    
+    @objc
+    private func searchButtonTapped() {
+        presenter?.openSearchFlow()
     }
 }
 
 extension PublicRoomsViewController {
     private func insertViews() {
+        searchButton.addSubview(searchIcon)
         view.addSubview(titleLabel)
         view.addSubview(collectionView)
+        view.addSubview(searchButton)
+        view.addSubview(infoLabel)
     }
     
     private func setupViews() {
@@ -71,6 +110,14 @@ extension PublicRoomsViewController {
         collectionView.pinLeft(to: view.leadingAnchor, 20)
         collectionView.pinRight(to: view.trailingAnchor, 20)
         collectionView.pinBottom(to: view.bottomAnchor, 160)
+        
+        searchButton.pinRight(to: self.view, 36)
+        searchButton.pinTop(to: self.view, 70)
+        searchButton.setHeight(30)
+        
+        searchIcon.pin(to: searchButton)
+        
+        infoLabel.pinCenter(to: self.view)
     }
 }
 
@@ -93,7 +140,7 @@ extension PublicRoomsViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let room = rooms[indexPath.row]
-        
+        MiniPlayerService.shared.markDirty = true
         presenter?.openSelectedRoom(with: room)
     }
 

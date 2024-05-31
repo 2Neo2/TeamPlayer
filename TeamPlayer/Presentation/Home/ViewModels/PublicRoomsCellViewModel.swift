@@ -14,4 +14,5 @@ struct PublicRoomsCellViewModel {
     let isPrivate: Bool
     let creator: UUID
     let img: String?
+    let desctiption: String
 }

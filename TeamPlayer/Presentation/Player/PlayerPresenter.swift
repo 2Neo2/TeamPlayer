@@ -14,6 +14,7 @@ protocol PlayerPresenterProtocol {
 final class PlayerPresenter: PlayerPresenterProtocol {
     weak var view: PlayerViewController?
     var router: PlayerRouter?
+    private var yandexService = YandexMusicService()
     private var miniPlayerService = MiniPlayerService.shared
     
     func hideView() {
@@ -22,7 +23,7 @@ final class PlayerPresenter: PlayerPresenterProtocol {
     
     func fetchData() {
         UIBlockingProgressHUD.show()
-        let currentTrack = self.miniPlayerService.getTrack() { track in
+        self.miniPlayerService.getTrack() { track in
             DispatchQueue.main.async { [weak self] in
                 let currentTrack = TrackViewModel(
                     id: track.trackID,
@@ -32,6 +33,42 @@ final class PlayerPresenter: PlayerPresenterProtocol {
                     trackURL: track.downloadLink
                 )
                 self?.view?.updateTrack(with: currentTrack)
+            }
+        }
+    }
+    
+    func playTrack() {
+        self.miniPlayerService.playTrack()
+    }
+    
+    func pauseTrack() {
+        self.miniPlayerService.pauseTrack()
+    }
+    
+    func likeTrack(with id: String) {
+        UIBlockingProgressHUD.show()
+        yandexService.likeTrack(trackID: id) { result in
+            switch result {
+            case .success(_):
+                print("OK")
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                print(error)
+                break
+            }
+        }
+    }
+    
+    func dislikeTrack(with id: String) {
+        UIBlockingProgressHUD.show()
+        yandexService.dislikeTrack(trackID: id) { result in
+            switch result {
+            case .success(_):
+                print("OK")
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                print(error)
+                break
             }
         }
     }

@@ -9,17 +9,15 @@ import UIKit
 
 enum HomeSectionType{
     case publicRooms(viewModels: [PublicRoomsCellViewModel])
-    case artistRooms(viewModels: [ArtistRoomsViewModel])
     case newReleases(viewModels: [NewReleasesCellViewModel])
     
     var title: String {
         switch self {
+            
         case .publicRooms:
             return "Публичные сообщества"
-        case .artistRooms:
-            return "Сообщества артистов"
         case .newReleases:
-            return "Новые релизы"
+            return "Новые треки в этом месяце"
         }
     }
 }
@@ -110,16 +108,6 @@ final class HomeViewController: UIViewController {
     private var musicButtonLeadingConstraint = NSLayoutConstraint()
     private var roomButtonLeadingConstraint = NSLayoutConstraint()
     var sections = [HomeSectionType]()
-    private var artistsRooms = [
-        ArtistRoomsViewModel(name: "Jay-Z", image: "jay-z", isPrivate: false),
-        ArtistRoomsViewModel(name: "Eminem", image: "eminem", isPrivate: false),
-        ArtistRoomsViewModel(name: "Баста", image: "баста", isPrivate: false),
-        ArtistRoomsViewModel(name: "Guf", image: "guf", isPrivate: false),
-        ArtistRoomsViewModel(name: "ASAP Rocky", image: "asap", isPrivate: false),
-        ArtistRoomsViewModel(name: "OBLADAET", image: "obladaet", isPrivate: false),
-        ArtistRoomsViewModel(name: "Егор Крид", image: "krid", isPrivate: false),
-        ArtistRoomsViewModel(name: "Queen", image: "queen", isPrivate: false),
-    ]
     
     private func configureMainCollectionView() {
         mainContentCollectionView.register(
@@ -150,11 +138,15 @@ final class HomeViewController: UIViewController {
         setupViews()
         layoutViews()
         
-        sections.append(.artistRooms(viewModels: self.artistsRooms))
         configureMainCollectionView()
         
         presenter?.fetchData()
     }
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        presenter?.fetchData()
+//    }
     
     @objc
     private func accountButtonTapped() {
@@ -199,11 +191,8 @@ final class HomeViewController: UIViewController {
         
         switch type {
         case 0:
-            // TODO: Create artist logic.
-            print("Artist")
-        case 1:
             presenter?.openPublicRoomsFlow()
-        case 2:
+        case 1:
             presenter?.openReleasesFlow()
         default:
             return
@@ -277,8 +266,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         switch type {
         case .publicRooms(let viewModels):
             return viewModels.count
-        case .artistRooms(viewModels: let viewModels):
-            return viewModels.count
         case .newReleases(viewModels: let viewModels):
             return viewModels.count
         }
@@ -294,10 +281,9 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         switch type {
         case .newReleases(let viewModels):
             presenter?.openSingleRelease(with: viewModels[indexPath.row])
-        case .artistRooms(_):
-            print("art")
         case .publicRooms(let viewModels):
-            presenter?.openSingleRoom(with: viewModels[indexPath.row])
+            MiniPlayerService.shared.markDirty = true
+            presenter?.fetchJoinRoom(with: viewModels[indexPath.row])
         }
     }
     
@@ -312,17 +298,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? NewReleasesCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            // TODO: Configure cell.
-            let model = viewModels[indexPath.row]
-            cell.configure(with: model)
-            return cell
-        case .artistRooms(let viewModels):
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: ArtistRoomsCollectionViewCell.identifier,
-                for: indexPath
-            ) as? ArtistRoomsCollectionViewCell else {
-                return UICollectionViewCell()
-            }
+            
             let model = viewModels[indexPath.row]
             cell.configure(with: model)
             return cell
@@ -379,8 +355,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         ]
         switch section {
         case 0:
-            // Create item layout.
-            
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize (
                     widthDimension: .absolute(200),
@@ -389,9 +363,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             )
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            // Create vertical group layout in other horizontal group.
-            
             
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(
                 layoutSize:
@@ -402,46 +373,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 subitem: item,
                 count: 1
             )
-            
-            // Create section layout.
             
             let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .continuous
             section.boundarySupplementaryItems = supplementaryViews
             return section
         case 1:
-            // Create item layout.
-            
-            let item = NSCollectionLayoutItem(
-                layoutSize: NSCollectionLayoutSize (
-                    widthDimension: .absolute(200),
-                    heightDimension: .absolute(240)
-                )
-            )
-            
-            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            // Create vertical group layout in other horizontal group.
-            
-            let horizontalGroup = NSCollectionLayoutGroup.horizontal(
-                layoutSize:
-                    NSCollectionLayoutSize(
-                        widthDimension: .absolute(200),
-                        heightDimension: .absolute(240)
-                    ),
-                subitem: item,
-                count: 1
-            )
-            
-            // Create section layout.
-            
-            let section = NSCollectionLayoutSection(group: horizontalGroup)
-            section.orthogonalScrollingBehavior = .continuous
-            section.boundarySupplementaryItems = supplementaryViews
-            return section
-            
-        case 2:
-            // Create item layout.
             
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize (
@@ -451,8 +388,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             )
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            // Create vertical group layout in other horizontal group.
             
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize:
@@ -467,10 +402,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let section = NSCollectionLayoutSection(group: group)
             section.boundarySupplementaryItems = supplementaryViews
             return section
-            
         default:
-            // Create item layout.
-            
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize (
                     widthDimension: .fractionalWidth(1.0),
@@ -479,8 +411,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             )
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-            
-            // Create vertical group layout in other horizontal group.
             
             let group = NSCollectionLayoutGroup.vertical(
                 layoutSize:
@@ -491,8 +421,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                 subitem: item,
                 count: 1
             )
-            
-            // Create section layout.
             
             let section = NSCollectionLayoutSection(group: group)
             return section

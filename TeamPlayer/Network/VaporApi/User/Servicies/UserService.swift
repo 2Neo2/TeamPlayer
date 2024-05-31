@@ -51,6 +51,7 @@ final class UserService: UserServiceProtocol {
             "name": "\(model.name)",
             "email": "\(model.email)",
             "plan": "\(model.plan)",
+            "imageData": "",
             "password": "\(model.password)"
         ]
         
@@ -169,6 +170,48 @@ final class UserService: UserServiceProtocol {
             switch result {
             case .success(let model):
                 completion(.success(model?.name))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func fetchUserByIdWithData(id: UUID, completion: @escaping (Result<UserModel?, Error>) -> Void) {
+        let json: [String: Any?] = [
+            "id": "\(id)"
+        ]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        let request = userByIdRequest(body: jsonData)
+        
+        let task = urlSession.objectTask(for: request) { (result: Result<UserModel?, Error>) in
+            switch result {
+            case .success(let model):
+                completion(.success(model))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
+    
+    func fetchUserDataById(id: UUID, completion: @escaping (Result<UserModel?, Error>) -> Void) {
+        let json: [String: Any?] = [
+            "id": "\(id)"
+        ]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: json)
+        
+        let request = userByIdRequest(body: jsonData)
+        
+        let task = urlSession.objectTask(for: request) { (result: Result<UserModel?, Error>) in
+            switch result {
+            case .success(let model):
+                completion(.success(model))
             case .failure(let error):
                 completion(.failure(error))
             }

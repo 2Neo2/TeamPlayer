@@ -12,7 +12,6 @@ class PublicRoomCell: UICollectionViewCell {
     
     private lazy var roomImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -21,16 +20,20 @@ class PublicRoomCell: UICollectionViewCell {
     
     private lazy var roomTitleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.Font.getFont(name: "Bold", size: 15)
         label.textColor = .black
         return label
     }()
     
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = Constants.Font.getFont(name: "Bold", size: 10)
+        label.textColor = Constants.Colors.placeholder
+        return label
+    }()
+    
     private lazy var roomIconView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.image = Constants.Images.roomIcon
@@ -49,6 +52,7 @@ class PublicRoomCell: UICollectionViewCell {
         super.prepareForReuse()
         roomTitleLabel.text = nil
         roomImageView.image = nil
+        descriptionLabel.text = nil
     }
     
     required init?(coder: NSCoder) {
@@ -57,6 +61,7 @@ class PublicRoomCell: UICollectionViewCell {
     
     func configure(with model: PublicRoomsCellViewModel) {
         roomTitleLabel.text = model.roomName
+        descriptionLabel.text = model.desctiption
         if let imageData = model.img, imageData.isEmpty == false {
             if let data = Data(base64Encoded: imageData) {
                 roomImageView.image = UIImage(data: data)
@@ -72,6 +77,7 @@ extension PublicRoomCell {
         contentView.addSubview(roomImageView)
         contentView.addSubview(roomTitleLabel)
         contentView.addSubview(roomIconView)
+        contentView.addSubview(descriptionLabel)
     }
     
     private func setupViews() {
@@ -90,6 +96,10 @@ extension PublicRoomCell {
         
         roomIconView.pinCenterY(to: contentView)
         roomIconView.pinRight(to: contentView, 30)
+        
+        descriptionLabel.pinLeft(to: roomImageView.trailingAnchor, 5)
+        descriptionLabel.pinTop(to: roomTitleLabel.bottomAnchor, 2)
+        descriptionLabel.pinRight(to: contentView, 50)
     }
 }
 

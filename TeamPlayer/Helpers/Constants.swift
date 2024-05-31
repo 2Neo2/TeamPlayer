@@ -55,6 +55,9 @@ struct Constants {
         static let defaultAccountIcon = UIImage(named: "accountDefault")
         static let playlistDefault = UIImage(named: "playlistDefault")
         static let minusIcon = UIImage(systemName: "minus")
+        static let removeUserIcon = UIImage(systemName: "xmark.bin.fill")
+        static let userDjIcon = UIImage(systemName: "repeat.circle")
+        static let boltIcon = UIImage(systemName: "bolt.square.fill")
     }
     
     struct Colors {

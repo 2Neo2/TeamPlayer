@@ -23,9 +23,14 @@ final class PublicRoomsPresenter: PublicRoomsPresenterProtocol {
             name: model.roomName,
             creatorID: model.creator,
             isPrivate: model.isPrivate,
-            image: model.img
+            image: model.img,
+            desctiption: model.desctiption
         )
         router?.openSelectedRoom(with: roomModel)
+    }
+    
+    func openSearchFlow() {
+        router?.openSearchFlow()
     }
     
     func fetchData() {
@@ -49,7 +54,8 @@ final class PublicRoomsPresenter: PublicRoomsPresenterProtocol {
                         code: $0.invitationCode,
                         isPrivate: $0.isPrivate,
                         creator: $0.creator ?? UUID(),
-                        img: $0.imageData?.base64EncodedString()
+                        img: $0.imageData?.base64EncodedString(),
+                        desctiption: $0.description
                     )
                 }
             case .failure(let error):

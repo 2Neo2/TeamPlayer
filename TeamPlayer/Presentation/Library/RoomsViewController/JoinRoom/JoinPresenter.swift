@@ -25,11 +25,12 @@ final class JoinPresenter: JoinPresenterProtocol {
             return
         }
         
-        roomsService.joinRoom(code: code, token: token) { [weak self] result in
+        roomsService.joinRoomWithCode(code: code, token: token) { [weak self] result in
             switch result {
             case .success(let model):
-                print(model)
-                self?.hideView()
+                DispatchQueue.main.async {
+                    self?.hideView()
+                }
             case .failure(let error):
                 print(error)
             }

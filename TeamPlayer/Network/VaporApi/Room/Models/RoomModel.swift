@@ -14,6 +14,7 @@ struct RoomModel: Decodable {
     let isPrivate: Bool
     let creator: UUID?
     let imageData: Data?
+    let description: String
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -22,5 +23,6 @@ struct RoomModel: Decodable {
         case isPrivate
         case creator
         case imageData
+        case description
     }
 }

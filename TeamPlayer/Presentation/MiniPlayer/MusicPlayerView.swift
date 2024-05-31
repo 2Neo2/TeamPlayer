@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import AVFoundation
 
 final class MusicPlayerView: UIView,
                             MusicPlayerDisplayLogic {
@@ -19,6 +20,8 @@ final class MusicPlayerView: UIView,
     private let router: MusicPlayerRoutingLogic
     private let interactor: MusicPlayerBusinessLogic
     private var currentTrack: TrackViewModel?
+    private var progressTimer: Timer?
+    private var isPlay: Bool = false
     
     private lazy var musicImageView: UIImageView = {
         let imageView = UIImageView()
@@ -59,6 +62,13 @@ final class MusicPlayerView: UIView,
         return imageView
     }()
     
+    private lazy var musicProgressView: UIProgressView = {
+        let progress = UIProgressView()
+        progress.tintColor = Constants.Colors.placeholder
+        progress.layer.cornerRadius = 5
+        progress.progressTintColor = Constants.Colors.general
+        return progress
+    }()
     
     // MARK: - LifeCycle
     init(
@@ -74,6 +84,10 @@ final class MusicPlayerView: UIView,
         interactor.loadStart(Model.Start.Request())
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NotificationCenter.miniPlayerDidUpdate, object: nil)
+    }
+    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError(MusicPlayerConstants.fatalError)
@@ -86,6 +100,7 @@ final class MusicPlayerView: UIView,
         addSubview(musicNameLabel)
         addSubview(musicArtistNameLabel)
         addSubview(musicPlayButton)
+        addSubview(musicProgressView)
     }
     
     private func setupUI() {
@@ -94,7 +109,9 @@ final class MusicPlayerView: UIView,
         layer.cornerRadius = 10
         layer.borderWidth = 1
         layer.borderColor = Constants.Colors.general?.cgColor
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerDidUpdate(_:)), name: NotificationCenter.miniPlayerDidUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerDidUpdate(_:)), name: NotificationCenter.miniPlayerHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(miniPlayerDidUpdate(_:)), name: NotificationCenter.miniPlayerOpen, object: nil)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         self.addGestureRecognizer(tapGesture)
     }
@@ -119,8 +136,12 @@ final class MusicPlayerView: UIView,
         musicPlayButton.setWidth(25)
         musicPlayButton.setHeight(25)
         musicPlayButtonIcon.pin(to: musicPlayButton)
+        
+        musicProgressView.pinLeft(to: musicImageView.trailingAnchor, 11)
+        musicProgressView.pinTop(to: musicArtistNameLabel.bottomAnchor, 8)
+        musicProgressView.pinRight(to: musicPlayButton.leadingAnchor, 7)
+        musicProgressView.setHeight(3)
     }
-    
     
     // MARK: - Actions
     @objc
@@ -131,19 +152,85 @@ final class MusicPlayerView: UIView,
             self.musicNameLabel.isHidden = true
             self.musicPlayButton.isHidden = true
             self.musicArtistNameLabel.isHidden = true
-            self.router.routeToPlayer(with: self.currentTrack)
+            self.router.routeToPlayer(with: self.currentTrack, mode: self.isPlay)
         }
     }
     
-    // TODO: двусвязный список, next track if track ended.
     @objc
     private func playMusicButtonTapped() {
         self.musicPlayButton.isSelected.toggle()
         if self.musicPlayButton.isSelected {
             self.musicPlayButtonIcon.image = Constants.Images.pauseIcon
+            interactor.loadPlay(Model.Play.Request())
+            startUpdatingProgressView()
+            self.isPlay = true
         } else {
             self.musicPlayButtonIcon.image = Constants.Images.playIcon
+            interactor.loadPause(Model.Pause.Request())
+            stopUpdatingProgressView()
+            self.isPlay = false
         }
+    }
+    
+    @objc
+    private func updateProgressBar() {
+        if let durationValue = MiniPlayerService.shared.playerItem?.duration,
+           let timeValue = MiniPlayerService.shared.player?.currentTime()
+        {
+            let duration = CMTimeGetSeconds(durationValue)
+            let currentTime = CMTimeGetSeconds(timeValue)
+            let progress = Float(currentTime / duration)
+            
+            UIView.animate(withDuration: 0.1) {
+                self.musicProgressView.progress = progress
+            }
+        }
+    }
+    
+    @objc
+    private func miniPlayerDidUpdate(_ notification: Notification) {
+        if notification.name == NotificationCenter.miniPlayerHide {
+            UIView.animate(withDuration: 0.3) {
+                self.isHidden = true
+            }
+        } else if notification.name == NotificationCenter.miniPlayerOpen {
+            UIView.animate(withDuration: 0.3) {
+                self.isHidden = false
+            }
+        } else {
+            UIView.animate(withDuration: 0.2) {
+                if self.musicPlayButton.isSelected == false {
+                    self.musicPlayButton.isSelected.toggle()
+                    self.musicPlayButtonIcon.image = Constants.Images.pauseIcon
+                    self.interactor.loadPlay(Model.Play.Request())
+                    self.startUpdatingProgressView()
+                    self.isPlay = true
+                }
+                self.isPlay = true
+                self.currentTrack = MiniPlayerService.shared.currentTrack
+                guard let musicLink = self.currentTrack?.imageURL  else { return }
+                self.musicNameLabel.text = self.currentTrack?.name
+                self.musicArtistNameLabel.text = self.currentTrack?.artist
+                self.musicImageView.kf.indicatorType = .activity
+                self.musicImageView.kf.setImage(with: URL(string: musicLink))
+            }
+
+        }
+    }
+    
+    private func startUpdatingProgressView() {
+        progressTimer = Timer.scheduledTimer(
+            timeInterval: 0.1,
+            target: self,
+            selector: #selector(updateProgressBar),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    private func stopUpdatingProgressView() {
+        progressTimer?.invalidate()
+        progressTimer = nil
     }
     
     // MARK: - MusicPlayerDisplayLogic
@@ -166,6 +253,11 @@ extension MusicPlayerView: ClosePlayerProtocol {
             self.musicArtistNameLabel.isHidden = false
         }
         guard let model = model else { return }
+        if MiniPlayerService.shared.isPlay {
+            if self.musicPlayButton.isSelected == false {
+//                self.musicPlayButton
+            }
+        }
         musicNameLabel.text = model.name
         musicArtistNameLabel.text = model.artist
         musicImageView.kf.indicatorType = .activity

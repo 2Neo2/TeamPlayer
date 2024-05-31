@@ -128,7 +128,7 @@ extension FavouritesViewController {
 extension FavouritesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedMusic = tracks[indexPath.row]
-        //presenter?.didRoomTapped(viewModel: selectedRoom)
+        MiniPlayerService.shared.currentTrack = selectedMusic
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

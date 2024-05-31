@@ -11,6 +11,7 @@ protocol MusicPlayerBusinessLogic {
     typealias Model = MusicPlayerModel
     func loadStart(_ request: Model.Start.Request)
     func loadPlay(_ request: Model.Play.Request)
+    func loadPause(_ request: Model.Pause.Request)
     // func load(_ request: Model..Request)
 }
 
@@ -20,7 +21,7 @@ protocol MusicPlayerPresentationLogic {
     func presentCurrent(_ response: Model.Current.Response)
     // func present(_ response: Model..Response)
 }
-
+ 
 protocol MusicPlayerDisplayLogic: AnyObject {
     typealias Model = MusicPlayerModel
     func displayStart(_ viewModel: Model.Current.ViewModel)
@@ -28,5 +29,5 @@ protocol MusicPlayerDisplayLogic: AnyObject {
 }
 
 protocol MusicPlayerRoutingLogic {
-    func routeToPlayer(with model: TrackViewModel?)
+    func routeToPlayer(with model: TrackViewModel?, mode value: Bool)
 }

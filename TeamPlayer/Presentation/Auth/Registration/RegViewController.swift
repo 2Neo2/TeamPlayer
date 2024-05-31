@@ -181,6 +181,7 @@ extension RegViewController {
             mainIconView.topAnchor.constraint(equalTo: view.topAnchor, constant: 65.0),
             mainIconView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 17.0),
             mainIconView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -17.0),
+            mainIconView.heightAnchor.constraint(equalToConstant: 270),
             
             titleLabel.topAnchor.constraint(equalTo: mainIconView.bottomAnchor, constant: 20.0),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24.0),

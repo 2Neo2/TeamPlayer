@@ -12,7 +12,6 @@ class PublicRoomsCollectionViewCell: UICollectionViewCell {
     
     private lazy var roomImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -21,9 +20,15 @@ class PublicRoomsCollectionViewCell: UICollectionViewCell {
     
     private lazy var roomTitleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.Font.getFont(name: "Bold", size: 15)
         label.textColor = .black
+        return label
+    }()
+    
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = Constants.Font.getFont(name: "Bold", size: 10)
+        label.textColor = Constants.Colors.placeholder
         return label
     }()
     
@@ -38,6 +43,7 @@ class PublicRoomsCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         roomTitleLabel.text = nil
         roomImageView.image = nil
+        descriptionLabel.text = nil
     }
     
     required init?(coder: NSCoder) {
@@ -46,6 +52,7 @@ class PublicRoomsCollectionViewCell: UICollectionViewCell {
     
     func configure(with model: PublicRoomsCellViewModel) {
         roomTitleLabel.text = model.roomName
+        descriptionLabel.text = model.desctiption
         if let imageData = model.img, imageData.isEmpty == false {
             if let data = Data(base64Encoded: imageData) {
                 roomImageView.image = UIImage(data: data)
@@ -60,6 +67,7 @@ extension PublicRoomsCollectionViewCell {
     private func insertViews() {
         contentView.addSubview(roomImageView)
         contentView.addSubview(roomTitleLabel)
+        contentView.addSubview(descriptionLabel)
     }
     
     private func setupViews() {
@@ -75,6 +83,10 @@ extension PublicRoomsCollectionViewCell {
         
         roomTitleLabel.pinTop(to: roomImageView.bottomAnchor, 10)
         roomTitleLabel.pinLeft(to: contentView, 15)
+        
+        descriptionLabel.pinLeft(to: contentView, 15)
+        descriptionLabel.pinTop(to: roomTitleLabel.bottomAnchor, 2)
+        descriptionLabel.pinRight(to: contentView, 10)
     }
 }
 

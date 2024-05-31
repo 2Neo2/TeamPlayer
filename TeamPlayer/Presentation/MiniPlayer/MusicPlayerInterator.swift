@@ -23,7 +23,7 @@ final class MusicPlayerInteractor: MusicPlayerBusinessLogic {
     
     // MARK: - BusinessLogic
     func loadStart(_ request: Model.Start.Request) {
-        let currentTrack = self.miniPlayerService.getTrack() { track in
+        self.miniPlayerService.getTrack() { track in
             DispatchQueue.main.async { [weak self] in
                 let currentTrack = TrackViewModel(
                     id: track.trackID,
@@ -39,6 +39,10 @@ final class MusicPlayerInteractor: MusicPlayerBusinessLogic {
     }
     
     func loadPlay(_ request: Model.Play.Request) {
-        
+        self.miniPlayerService.playTrack()
+    }
+    
+    func loadPause(_ request: Model.Pause.Request) {
+        self.miniPlayerService.pauseTrack()
     }
 }

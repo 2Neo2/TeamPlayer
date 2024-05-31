@@ -37,14 +37,18 @@ class PlaylistCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var trackIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.image = Constants.Images.albumIcon
-        imageView.layer.cornerRadius = 6
-        return imageView
+    private lazy var removePlaylistButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = Constants.Colors.general
+        button.setTitle("удалить", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(removeButtonTapped), for: .touchUpInside)
+        button.layer.cornerRadius = 10
+        button.titleLabel?.font = Constants.Font.getFont(name: "Bold", size: 13)
+        return button
     }()
+    
+    var deleteAction: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -64,6 +68,13 @@ class PlaylistCollectionCell: UICollectionViewCell {
             print("Фото успешно загружено")
         }
     }
+    
+    @objc
+    private func removeButtonTapped() {
+        if let action = self.deleteAction {
+            action()
+        }
+    }
 }
 
 extension PlaylistCollectionCell {
@@ -71,7 +82,7 @@ extension PlaylistCollectionCell {
         contentView.addSubview(trackImageView)
         contentView.addSubview(trackNameLabel)
         contentView.addSubview(artistNameLabel)
-        contentView.addSubview(trackIcon)
+        contentView.addSubview(removePlaylistButton)
     }
     
     private func setupViews() {
@@ -94,10 +105,9 @@ extension PlaylistCollectionCell {
         artistNameLabel.pinTop(to: trackNameLabel.bottomAnchor, 2)
         artistNameLabel.pinLeft(to: trackImageView.trailingAnchor, 7)
         
-        trackIcon.pinCenterY(to: contentView)
-        trackIcon.pinRight(to: contentView, 15)
-        trackIcon.setWidth(30)
-        trackIcon.setHeight(30)
+        removePlaylistButton.pinCenterY(to: contentView)
+        removePlaylistButton.pinRight(to: contentView, 15)
+        removePlaylistButton.setWidth(80)
     }
     
     private func fetchImage(with url: URL,  completion: @escaping () -> Void) {

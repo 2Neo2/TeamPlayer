@@ -72,11 +72,12 @@ final class MembersViewController: UIViewController {
 
 extension MembersViewController {
     func updateUI(with models: [UserModel]) {
-        if models.count == 0 {
+        if models.count <= 1 {
             infoLabel.isHidden = false
             collectionView.isHidden = true
         } else {
-            self.members = models
+            members = models
+            collectionView.isHidden = false
             collectionView.reloadData()
         }
     }
@@ -135,14 +136,17 @@ extension MembersViewController: UICollectionViewDelegate, UICollectionViewDataS
             return UICollectionViewCell()
         }
         let member = members[indexPath.row]
+        cell.deleteAction = { [weak self] in
+            guard let id = self?.currentId else { return }
+            self?.presenter?.removeUser(id, member.id)
+        }
         
+        cell.setDjAction = { [weak self] in
+            guard let id = self?.currentId else { return }
+            self?.presenter?.setdj(id, member.id)
+        }
+        cell.configure(with: member)
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let member = members[indexPath.row]
-        
-        // TODO: Listen Music.
     }
     
     static func createCollectionViewLayout() -> NSCollectionLayoutSection {

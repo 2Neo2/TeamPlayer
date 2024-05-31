@@ -14,7 +14,6 @@ protocol CreateRoomVCProtocol: AnyObject {
 final class CreateRoomViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.Font.getFont(name: "Bold", size: 24)
         label.text = "Создать сообщество"
         label.textAlignment = .left
@@ -23,7 +22,6 @@ final class CreateRoomViewController: UIViewController {
     
     private lazy var photoIconView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = Constants.Images.photoIcon
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -31,7 +29,6 @@ final class CreateRoomViewController: UIViewController {
     
     private lazy var iconButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .white
         button.layer.cornerRadius = 13
         button.clipsToBounds = true
@@ -41,7 +38,6 @@ final class CreateRoomViewController: UIViewController {
     
     private lazy var checkboxButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.black.cgColor
         button.clipsToBounds = true
@@ -51,7 +47,6 @@ final class CreateRoomViewController: UIViewController {
     
     private let squareCheckmarkImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(systemName: "checkmark")
         imageView.tintColor = .black
         imageView.isHidden = true
@@ -61,7 +56,6 @@ final class CreateRoomViewController: UIViewController {
     
     private let checkboxLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.Font.getFont(name: "Bold", size: 15)
         label.text = "Приватная комната ?"
         label.textAlignment = .center
@@ -71,7 +65,6 @@ final class CreateRoomViewController: UIViewController {
     
     private lazy var cancelImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = Constants.Images.cancelButton
         imageView.tintColor = .black
         imageView.contentMode = .scaleAspectFill
@@ -80,7 +73,6 @@ final class CreateRoomViewController: UIViewController {
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = Constants.Colors.backgroundColor
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.clipsToBounds = true
@@ -89,17 +81,28 @@ final class CreateRoomViewController: UIViewController {
     
     private lazy var nameTextField: CustomTextField = {
         let field = CustomTextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.backgroundColor = .white
         field.placeholder = "Название комнаты"
         field.layer.cornerRadius = 10
         field.font = Constants.Font.getFont(name: "Bold", size: 17)
+        field.autocapitalizationType = .none
+        field.autocorrectionType = .no
+        return field
+    }()
+    
+    private lazy var descriptionTextField: CustomTextField = {
+        let field = CustomTextField()
+        field.backgroundColor = .white
+        field.placeholder = "Введите описание сообщества"
+        field.layer.cornerRadius = 10
+        field.font = Constants.Font.getFont(name: "Bold", size: 17)
+        field.autocapitalizationType = .none
+        field.autocorrectionType = .no
         return field
     }()
     
     private lazy var createButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(.white, for: .normal)
         button.setTitle("Создать комнату", for: .normal)
         button.titleLabel?.font = Constants.Font.getFont(name: "Bold", size: 16)
@@ -152,7 +155,7 @@ final class CreateRoomViewController: UIViewController {
             return
         }
         
-        presenter?.fetchRoom(with: nameTextField.text!, isPrivate: checkboxButton.isSelected, image: imageData)
+        presenter?.fetchRoom(with: nameTextField.text!, isPrivate: checkboxButton.isSelected, image: imageData, description: descriptionTextField.text ?? "")
     }
     
     @objc
@@ -173,6 +176,7 @@ extension CreateRoomViewController {
         view.addSubview(checkboxLabel)
         view.addSubview(checkboxButton)
         view.addSubview(createButton)
+        view.addSubview(descriptionTextField)
     }
     
     private func setupViews() {
@@ -206,10 +210,15 @@ extension CreateRoomViewController {
         nameTextField.pinRight(to: self.view, 30)
         nameTextField.setHeight(48)
         
-        checkboxLabel.pinTop(to: nameTextField.bottomAnchor, 25)
+        descriptionTextField.pinTop(to: nameTextField.bottomAnchor, 10)
+        descriptionTextField.pinLeft(to: self.view, 30)
+        descriptionTextField.pinRight(to: self.view, 30)
+        descriptionTextField.setHeight(70)
+        
+        checkboxLabel.pinTop(to: descriptionTextField.bottomAnchor, 25)
         checkboxLabel.pinLeft(to: self.view, 35)
         
-        checkboxButton.pinTop(to: nameTextField.bottomAnchor, 23)
+        checkboxButton.pinTop(to: descriptionTextField.bottomAnchor, 23)
         checkboxButton.pinLeft(to: checkboxLabel.trailingAnchor, 15)
         checkboxButton.setWidth(25)
         checkboxButton.setHeight(25)

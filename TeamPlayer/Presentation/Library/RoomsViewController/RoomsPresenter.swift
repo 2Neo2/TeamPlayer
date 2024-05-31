@@ -50,7 +50,8 @@ final class RoomsPresenter: RoomsPresenterProtocol {
                         name: $0.name ?? "",
                         creatorID: $0.creator,
                         isPrivate: $0.isPrivate,
-                        image: $0.imageData?.base64EncodedString()
+                        image: $0.imageData?.base64EncodedString(),
+                        desctiption: $0.description
                     )
                 }
                 
@@ -59,6 +60,7 @@ final class RoomsPresenter: RoomsPresenterProtocol {
                 }
                 UIBlockingProgressHUD.dismiss()
             case .failure(let error):
+                print(error.localizedDescription)
                 break
             }
         }

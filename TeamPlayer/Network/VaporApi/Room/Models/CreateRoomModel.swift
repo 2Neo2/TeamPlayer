@@ -13,6 +13,7 @@ struct CreateRoomModel: Codable {
     let imageData: Data
     let creator: Creator
     let invitationCode: String
+    let description: String
     let usersInRoom: Int
     let id: UUID
     
@@ -24,6 +25,7 @@ struct CreateRoomModel: Codable {
         case creator
         case imageData
         case usersInRoom
+        case description
     }
 }
 

@@ -8,8 +8,6 @@
 import Foundation
 
 protocol SearchPresenterProtocol {
-    func openMusicFlow()
-    func openRoomsFlow()
     func openAccountFlow()
     func fetchSearchData(with value: String)
 }
@@ -18,14 +16,6 @@ final class SearchPresenter: SearchPresenterProtocol {
     weak var view: SearchViewController?
     var router: SearchRouter?
     private var yandexService = YandexMusicService()
-    
-    func openMusicFlow() {
-        //router?.openMusicFlow()
-    }
-    
-    func openRoomsFlow() {
-        //router?.openRoomsFlow()
-    }
     
     func openAccountFlow() {
         router?.openAccountFlow()

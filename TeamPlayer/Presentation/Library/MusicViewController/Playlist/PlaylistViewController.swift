@@ -53,6 +53,15 @@ final class PlaylistViewController: UIViewController {
         return imageView
     }()
     
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = Constants.Font.getFont(name: "Bold", size: 17)
+        label.textAlignment = .center
+        label.numberOfLines = 0 
+        label.textColor = Constants.Colors.placeholder
+        return label
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout { _, _ -> NSCollectionLayoutSection? in
             PlaylistViewController.createCollectionViewLayout()
@@ -95,6 +104,10 @@ final class PlaylistViewController: UIViewController {
     
     private func configureView() {
         nameTitleLabel.text = currentModel?.name
+        descriptionLabel.text = currentModel?.description
+        if let seconds = currentModel?.totalMinutes {
+            typeTitleLabel.text = "Плейлист: \(Int(seconds / 60)) минут."
+        }
         if let imageData = currentModel?.imageData, imageData.isEmpty == false {
             if let data = Data(base64Encoded: imageData) {
                 playlistImageView.image = UIImage(data: data)
@@ -115,6 +128,7 @@ extension PlaylistViewController {
         view.addSubview(plusButton)
         view.addSubview(collectionView)
         view.addSubview(infoLabel)
+        view.addSubview(descriptionLabel)
     }
     
     private func setupViews() {
@@ -147,11 +161,13 @@ extension PlaylistViewController {
         typeTitleLabel.pinTop(to: nameTitleLabel.bottomAnchor, 3)
         typeTitleLabel.pinHorizontal(to: view, 86)
         
+        descriptionLabel.pinTop(to: typeTitleLabel.bottomAnchor, 3)
+        descriptionLabel.pinHorizontal(to: self.view, 30)
         
-        infoLabel.pinTop(to: typeTitleLabel.bottomAnchor, 30)
+        infoLabel.pinTop(to: descriptionLabel.bottomAnchor, 15)
         infoLabel.pinHorizontal(to: view, 30)
         
-        collectionView.pinTop(to: typeTitleLabel.bottomAnchor, 15)
+        collectionView.pinTop(to: descriptionLabel.bottomAnchor, 5)
         collectionView.pinLeft(to: self.view, 30)
         collectionView.pinRight(to: self.view, 30)
         collectionView.pinBottom(to: self.view, 160)
@@ -188,13 +204,22 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
         }
         let model = tracks[indexPath.row]
         cell.configure(with: model)
+        cell.deleteAction = { [weak self] in
+            self?.presenter?.deleteTrackFromPlaylist(with: self?.currentModel?.id, in: model.id)
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let track = tracks[indexPath.row]
-        
-        //presenter?.openPlaylistFlow(with: playlist)
+        guard let trackId = Int(track.trackID) else { return }
+        MiniPlayerService.shared.currentTrack = TrackViewModel(
+            id: trackId,
+            name: track.name,
+            artist: track.artist,
+            imageURL: track.imgURL,
+            trackURL: track.musicURL
+        )
     }
 
     static func createCollectionViewLayout() -> NSCollectionLayoutSection {

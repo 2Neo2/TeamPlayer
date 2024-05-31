@@ -20,7 +20,8 @@ protocol HomePresenterProtocol {
 final class HomePresenter: HomePresenterProtocol {
     weak var view: HomeViewController?
     var router: HomeRouter?
-    private var vaporService = RoomService()
+    private var roomService = RoomService()
+    private var userService = UserService()
     private var yandexService = YandexMusicService()
     
     func openAccountFlow() {
@@ -33,7 +34,8 @@ final class HomePresenter: HomePresenterProtocol {
             name: model.roomName,
             creatorID: model.creator,
             isPrivate: model.isPrivate,
-            image: model.img
+            image: model.img,
+            desctiption: model.desctiption
         )
         
         router?.openSingleRoom(with: roomVM)
@@ -66,7 +68,7 @@ final class HomePresenter: HomePresenterProtocol {
         var publicRooms: [PublicRoomsCellViewModel]?
         var releases: [NewReleasesCellViewModel]?
         
-        vaporService.listPublicRooms(token: token) { result in
+        roomService.listPublicRooms(token: token) { result in
             defer {
                 group.leave()
             }
@@ -79,7 +81,8 @@ final class HomePresenter: HomePresenterProtocol {
                         code: $0.invitationCode,
                         isPrivate: $0.isPrivate,
                         creator: $0.creator ?? UUID(),
-                        img: $0.imageData?.base64EncodedString()
+                        img: $0.imageData?.base64EncodedString(),
+                        desctiption: $0.description
                     )
                 }
             case .failure(let error):
@@ -108,6 +111,22 @@ final class HomePresenter: HomePresenterProtocol {
             else { return }
             
             self.view?.configureModels(publicRooms: publicRooms, newReleases: releases)
+        }
+    }
+    
+    func fetchJoinRoom(with model: PublicRoomsCellViewModel) {
+        guard let token = userService.userToken else { return }
+        roomService.joinRoom(with: model.id.uuidString, code: "", token: token) { [weak self] result in
+            switch result {
+            case .success(_):
+                DispatchQueue.main.async {
+                    self?.openSingleRoom(with: model)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+            
         }
     }
 }

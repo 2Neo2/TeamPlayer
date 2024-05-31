@@ -38,13 +38,15 @@ final class MusicListCell: UITableViewCell {
         return label
     }()
     
-    private lazy var musicNoteIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = Constants.Images.musicNoteIcon
-        imageView.contentMode = .scaleAspectFill
-        imageView.tintColor = Constants.Colors.general
-        return imageView
+    private lazy var removePlaylistButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = Constants.Colors.general
+        button.setTitle("удалить", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(removeButtonTapped), for: .touchUpInside)
+        button.layer.cornerRadius = 10
+        button.titleLabel?.font = Constants.Font.getFont(name: "Bold", size: 13)
+        return button
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -82,6 +84,11 @@ final class MusicListCell: UITableViewCell {
         insertViews()
         layoutView()
     }
+    
+    @objc
+    private func removeButtonTapped() {
+        
+    }
 }
 
 extension MusicListCell {
@@ -89,7 +96,7 @@ extension MusicListCell {
         self.contentView.addSubview(musicImageView)
         self.contentView.addSubview(titleMusicLabel)
         self.contentView.addSubview(artistLabel)
-        self.contentView.addSubview(musicNoteIcon)
+        self.contentView.addSubview(removePlaylistButton)
     }
     
     private func setupView() {
@@ -111,10 +118,9 @@ extension MusicListCell {
         artistLabel.pinTop(to: titleMusicLabel.bottomAnchor, 2)
         artistLabel.pinLeft(to: musicImageView.trailingAnchor, 11)
         
-        musicNoteIcon.pinCenterY(to: self.contentView)
-        musicNoteIcon.pinRight(to: self.contentView, 15)
-        musicNoteIcon.setWidth(30)
-        musicNoteIcon.setHeight(30)
+        removePlaylistButton.pinCenterY(to: self.contentView)
+        removePlaylistButton.pinRight(to: self.contentView, 15)
+        removePlaylistButton.setWidth(80)
     }
     
     private func fetchImage(with url: URL, completion: @escaping () -> Void) {

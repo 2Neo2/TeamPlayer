@@ -11,7 +11,7 @@ import UIKit
 final class MusicPlayerRouter: MusicPlayerRoutingLogic {
     weak var view: UIView?
     
-    func routeToPlayer(with model: TrackViewModel?) {
+    func routeToPlayer(with model: TrackViewModel?, mode value: Bool) {
         guard
             let rootViewController = UIApplication.shared.keyWindow?.rootViewController,
             let model = model,
@@ -20,7 +20,7 @@ final class MusicPlayerRouter: MusicPlayerRoutingLogic {
             return
         }
         
-        let presentVC = PlayerConfigurator.configure(with: model, view as! ClosePlayerProtocol)
+        let presentVC = PlayerConfigurator.configure(with: model, view as! ClosePlayerProtocol, mode: value)
         rootViewController.present(presentVC, animated: true, completion: nil)
     }
 }

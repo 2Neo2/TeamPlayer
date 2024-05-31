@@ -19,7 +19,8 @@ final class PlaylistService: PlaylistServiceProtocol {
     func createPlaylist(model: PlaylistViewModel, token value: String, completion: @escaping (Result<String?, Error>) -> Void) {
         let json: [String: Any] = [
             "name": model.name,
-            "imageData": model.imageData
+            "imageData": model.imageData,
+            "description": model.description
         ]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
@@ -98,9 +99,10 @@ final class PlaylistService: PlaylistServiceProtocol {
         task.resume()
     }
     
-    func removeTrack(token value: String, with trackID: UUID, completion: @escaping(Result<String, Error>) -> Void) {
+    func removeTrack(token value: String, with trackID: UUID, playlistID playlist: UUID, completion: @escaping(Result<String, Error>) -> Void) {
         let json: [String: Any] = [
-            "id": trackID.uuidString,
+            "trackID": trackID.uuidString,
+            "playlistID": playlist.uuidString
         ]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)
@@ -125,7 +127,8 @@ final class PlaylistService: PlaylistServiceProtocol {
             "title": model.name,
             "artist": model.artist,
             "imgLink": model.imageURL,
-            "musicLink": model.trackURL
+            "musicLink": model.trackURL,
+            "duration": model.duration!
         ]
         
         let jsonData = try? JSONSerialization.data(withJSONObject: json)

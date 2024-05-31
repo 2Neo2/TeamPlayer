@@ -17,8 +17,8 @@ final class FavouritesRouter: FavouritesRouterProtocol {
     func openMusicFlow() {
         guard let view else {return}
         
-//        let presentVC = TracksConfigurator.configure()
-//        
+//     let presentVC = TracksConfigurator.configure()
+//
 //        view.navigationController?.pushViewController(presentVC, animated: true)
     }
 }

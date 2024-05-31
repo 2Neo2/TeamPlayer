@@ -28,6 +28,7 @@ final class SelectedRoomRouter: SelectedRoomRouterProtocol {
         guard let view else {return}
 
         let presentVC = MembersConfigurator.configure(with: id)
+        presentVC.modalPresentationStyle = .fullScreen
         view.present(presentVC, animated: true)
     }
     

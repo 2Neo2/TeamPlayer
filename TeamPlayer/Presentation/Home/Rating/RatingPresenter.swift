@@ -17,7 +17,7 @@ protocol RatingPresenterProtocol {
 final class RatingPresenter: RatingPresenterProtocol {
     weak var view: RatingViewController?
     var router: RatingRouter?
-    
+    private var roomService = RoomService()
     
     func openMusicFlow() {
         router?.openMusicFlow()
@@ -32,6 +32,18 @@ final class RatingPresenter: RatingPresenterProtocol {
     }
     
     func fetchData() {
-        
+        guard let token = UserDataStorage().token else { return }
+        UIBlockingProgressHUD.show()
+        roomService.getRoomsRating(with: token) { [weak self] result in
+            switch result {
+            case .success(let models):
+                DispatchQueue.main.async {
+                    self?.view?.configureUI(with: models)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
     }
 }

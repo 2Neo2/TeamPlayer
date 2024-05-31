@@ -28,14 +28,6 @@ final class RoomListCell: UITableViewCell {
         return label
     }()
     
-    private lazy var countMembersLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = Constants.Font.getFont(name: "Black", size: 10)
-        label.textColor = Constants.Colors.placeholder
-        return label
-    }()
-    
     private lazy var musicRoomImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,6 +35,13 @@ final class RoomListCell: UITableViewCell {
         imageView.image = Constants.Images.roomIcon
         imageView.layer.cornerRadius = 6
         return imageView
+    }()
+    
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = Constants.Font.getFont(name: "Bold", size: 10)
+        label.textColor = Constants.Colors.placeholder
+        return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -71,6 +70,7 @@ final class RoomListCell: UITableViewCell {
     
     func configureCell(for model: RoomViewModel) {
         nameRoomLabel.text = model.name
+        descriptionLabel.text = model.desctiption
         if let imageData = model.image, imageData.isEmpty == false {
             if let data = Data(base64Encoded: imageData) {
                 roomImageView.image = UIImage(data: data)
@@ -88,8 +88,8 @@ extension RoomListCell {
     private func insertViews() {
         self.contentView.addSubview(roomImageView)
         self.contentView.addSubview(nameRoomLabel)
-        self.contentView.addSubview(countMembersLabel)
         self.contentView.addSubview(musicRoomImageView)
+        self.contentView.addSubview(descriptionLabel)
     }
     
     private func setupView() {
@@ -104,13 +104,14 @@ extension RoomListCell {
         roomImageView.pinBottom(to: self.contentView, 13)
         roomImageView.setWidth(50)
         
-        nameRoomLabel.pinLeft(to: roomImageView.trailingAnchor, 15)
+        nameRoomLabel.pinLeft(to: roomImageView.trailingAnchor, 5)
         nameRoomLabel.pinTop(to: self.contentView, 16)
-        
-        countMembersLabel.pinTop(to: nameRoomLabel.bottomAnchor, 7)
-        countMembersLabel.pinLeft(to: roomImageView.trailingAnchor, 11)
         
         musicRoomImageView.pinCenterY(to: self.contentView)
         musicRoomImageView.pinRight(to: self.contentView, 13)
+        
+        descriptionLabel.pinLeft(to: roomImageView.trailingAnchor, 5)
+        descriptionLabel.pinTop(to: nameRoomLabel.bottomAnchor)
+        descriptionLabel.pinRight(to: contentView, 50)
     }
 }

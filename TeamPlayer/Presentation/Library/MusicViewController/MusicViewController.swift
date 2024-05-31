@@ -251,6 +251,9 @@ extension MusicViewController: UICollectionViewDelegate, UICollectionViewDataSou
         }
         let model = playlists[indexPath.row]
         cell.configureCell(with: model)
+        cell.deleteAction = { [weak self] in
+            self?.presenter?.removePlaylist(with: model.id)
+        }
         return cell
     }
     
@@ -383,6 +386,8 @@ extension MusicViewController {
 
 extension MusicViewController: CreatePlaylistVCProtocol {
     func playlistCreated() {
+        SnackBar.make(in: self.view, message: "Плейлист создан!", duration: .lengthShort).show()
         presenter?.fetchData()
     }
 }
+

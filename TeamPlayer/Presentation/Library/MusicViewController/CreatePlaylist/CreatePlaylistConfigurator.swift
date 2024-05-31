@@ -14,6 +14,7 @@ protocol CreatePlaylistConfiguratorProtocol {
 final class CreatePlaylistConfigurator: CreatePlaylistConfiguratorProtocol {
     static func configure(with delegate: CreatePlaylistVCProtocol) -> UIViewController {
         let view = CreatePlaylistViewController()
+        view.delegate = delegate
         let router = CreatePlaylistRouter()
         let presenter = CreatePlaylistPresenter()
         

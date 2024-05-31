@@ -20,7 +20,6 @@ final class MusicPresenter: MusicPresenterProtocol {
     var router: MusicRouter?
     private var vaporService = PlaylistService()
     
-    
     func openFavouritesFlow() {
         router?.openFavouritesFlow()
     }
@@ -39,6 +38,20 @@ final class MusicPresenter: MusicPresenterProtocol {
     
     func openPlaylistFlow(with model: PlaylistViewModel) {
         router?.openPlaylistFlow(with: model)
+    }
+    
+    func removePlaylist(with id: UUID) {
+        guard let token = UserDataStorage().token else { return }
+        
+        vaporService.removePlaylist(token: token, playlistID: id) { [weak self] result in
+            switch result {
+            case .success(_):
+                self?.fetchData()
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
     }
     
     func fetchData() {
@@ -62,7 +75,9 @@ final class MusicPresenter: MusicPresenterProtocol {
                     return PlaylistViewModel(
                         id: $0.id!,
                         name: $0.name,
-                        imageData: $0.imageData
+                        imageData: $0.imageData,
+                        description: $0.description,
+                        totalMinutes: $0.totalMinutes
                     )
                 }
             case .failure(let error):

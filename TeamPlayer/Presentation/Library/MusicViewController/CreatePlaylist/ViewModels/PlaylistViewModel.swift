@@ -11,4 +11,6 @@ struct PlaylistViewModel {
     let id: UUID
     let name: String
     let imageData: String?
+    let description: String
+    let totalMinutes: Int
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import AVFoundation
 
 protocol ClosePlayerProtocol: AnyObject {
     func openMiniPlayerFlow(with model: TrackViewModel?)
@@ -165,15 +166,76 @@ final class PlayerViewController: UIViewController {
         return imageView
     }()
     
+    private lazy var musicProgressView: UIProgressView = {
+        let progress = UIProgressView()
+        progress.trackTintColor = .white
+        progress.layer.cornerRadius = 7
+        progress.progressTintColor = Constants.Colors.general
+        return progress
+    }()
+    
+    private lazy var timeDurationLabel: UILabel = {
+        let label = UILabel()
+        label.font = Constants.Font.getFont(name: "Bold", size: 15)
+        label.textColor = .white
+        return label
+    }()
+    
+    private lazy var timeCurrentLabel: UILabel = {
+        let label = UILabel()
+        label.font = Constants.Font.getFont(name: "Bold", size: 15)
+        label.textColor = .white
+        return label
+    }()
+    
     var presenter: PlayerPresenter?
     var currentModel: TrackViewModel?
+    var isPlay: Bool?
     var delegate: ClosePlayerProtocol?
+    private var progressTimer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         insertViews()
         setupViews()
         layoutViews()
+        configureUI()
+    }
+    
+    private func startUpdatingProgressView() {
+        progressTimer = Timer.scheduledTimer(
+            timeInterval: 0.1,
+            target: self,
+            selector: #selector(updateProgressBar),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    private func stopUpdatingProgressView() {
+        progressTimer?.invalidate()
+        progressTimer = nil
+    }
+    
+    @objc
+    private func updateProgressBar() {
+        if let durationValue = MiniPlayerService.shared.playerItem?.duration,
+           let timeValue = MiniPlayerService.shared.player?.currentTime()
+        {
+            let duration = CMTimeGetSeconds(durationValue)
+            let currentTime = CMTimeGetSeconds(timeValue)
+            let progress = Float(currentTime / duration)
+            
+            let durationString = stringFromTimeInterval(duration)
+            let currentTimeString = stringFromTimeInterval(currentTime)
+            
+            UIView.animate(withDuration: 0.1) {
+                self.timeCurrentLabel.text = currentTimeString
+                self.timeDurationLabel.text = durationString
+                
+                self.musicProgressView.progress = progress
+            }
+        }
     }
     
     @objc
@@ -181,8 +243,12 @@ final class PlayerViewController: UIViewController {
         self.playButton.isSelected.toggle()
         if self.playButton.isSelected {
             self.playIcon.image = Constants.Images.pauseIcon
+            self.presenter?.playTrack()
+            startUpdatingProgressView()
         } else {
             self.playIcon.image = Constants.Images.playIcon
+            stopUpdatingProgressView()
+            self.presenter?.pauseTrack()
         }
     }
     
@@ -194,11 +260,13 @@ final class PlayerViewController: UIViewController {
     
     @objc
     private func forwardButtonTapped() {
+        self.isPlay = false
         presenter?.fetchData()
     }
     
     @objc
     private func backwardButtonTapped() {
+        self.isPlay = false
         presenter?.fetchData()
     }
     
@@ -214,24 +282,47 @@ final class PlayerViewController: UIViewController {
     
     @objc
     private func likeButtonTapped() {
-        self.likeButton.isSelected.toggle()
-        
-        if likeButton.isSelected {
-            likeIcon.tintColor = Constants.Colors.general
-        } else {
-            likeIcon.tintColor = .white
+        if let id = currentModel?.id {
+            presenter?.likeTrack(with: String(id))
         }
     }
     
     @objc
     private func dislikeButtonTapped() {
-        self.dislikeButton.isSelected.toggle()
-        
-        if dislikeButton.isSelected {
-            dislikeIcon.tintColor = Constants.Colors.general
-        } else {
-            dislikeIcon.tintColor = .white
+        if let id = currentModel?.id {
+            presenter?.dislikeTrack(with: String(id))
         }
+    }
+    
+    func configureUI() {
+        if self.isPlay! {
+            self.playButton.isSelected.toggle()
+            self.playIcon.image = Constants.Images.pauseIcon
+            startUpdatingProgressView()
+        } else {
+            if let durationValue = MiniPlayerService.shared.playerItem?.duration,
+               let timeValue = MiniPlayerService.shared.player?.currentTime()
+            {
+                let duration = CMTimeGetSeconds(durationValue)
+                let currentTime = CMTimeGetSeconds(timeValue)
+                
+                let currentTimeString = stringFromTimeInterval(currentTime)
+                self.timeCurrentLabel.text = currentTimeString
+                
+                let durationString = stringFromTimeInterval(duration)
+                self.timeDurationLabel.text = durationString
+            }
+        }
+    }
+    
+    private func stringFromTimeInterval(_ timeInterval: TimeInterval) -> String {
+        guard !timeInterval.isInfinite && !timeInterval.isNaN else {
+            return "00:00"
+        }
+        
+        let minutes = Int(timeInterval) / 60
+        let seconds = Int(timeInterval) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
     }
 }
 
@@ -256,6 +347,9 @@ extension PlayerViewController {
         view.addSubview(dislikeButton)
         view.addSubview(intersectionPlayButton)
         view.addSubview(cyclePlayButton)
+        view.addSubview(musicProgressView)
+        view.addSubview(timeDurationLabel)
+        view.addSubview(timeCurrentLabel)
     }
     
     private func setupViews() {
@@ -273,6 +367,8 @@ extension PlayerViewController {
         musicImageView.kf.indicatorType = .activity
         musicImageView.kf.setImage(with: URL(string: model.imageURL))
         self.currentModel = model
+        MiniPlayerService.shared.currentTrack = self.currentModel
+        configureUI()
         UIBlockingProgressHUD.dismiss()
     }
     
@@ -294,6 +390,17 @@ extension PlayerViewController {
         artistLabel.pinTop(to: titleMusicLabel.bottomAnchor, 2)
         artistLabel.pinLeft(to: self.view, 30)
         artistLabel.setWidth(view.frame.width - 60.0)
+        
+        musicProgressView.pinLeft(to: self.view, 30)
+        musicProgressView.pinRight(to: self.view, 30)
+        musicProgressView.setHeight(8)
+        musicProgressView.pinTop(to: artistLabel.bottomAnchor, 15)
+        
+        timeCurrentLabel.pinLeft(to: self.view, 28)
+        timeCurrentLabel.pinTop(to: musicProgressView.bottomAnchor, 3)
+        
+        timeDurationLabel.pinRight(to: self.view, 28)
+        timeDurationLabel.pinTop(to: musicProgressView.bottomAnchor, 3)
         
         playButton.pinCenterX(to: self.view)
         playButton.pinTop(to: artistLabel.bottomAnchor, 50)

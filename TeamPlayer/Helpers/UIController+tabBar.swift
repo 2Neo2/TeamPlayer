@@ -15,6 +15,12 @@ extension UIViewController {
     }
     
     @objc func backButtonTapped() {
+        if let value = MiniPlayerService.shared.markDirty {
+            if value {
+                MiniPlayerService.shared.markDirty = false
+                MiniPlayerService.shared.pauseTrack()
+            }
+        }
         self.navigationController?.popViewController(animated: true)
     }
 }

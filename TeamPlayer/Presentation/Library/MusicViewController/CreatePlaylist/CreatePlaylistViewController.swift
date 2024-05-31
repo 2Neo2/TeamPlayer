@@ -14,7 +14,6 @@ protocol CreatePlaylistVCProtocol {
 final class CreatePlaylistViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.Font.getFont(name: "Bold", size: 24)
         label.text = "Создать плейлист"
         label.textAlignment = .left
@@ -23,7 +22,6 @@ final class CreatePlaylistViewController: UIViewController {
     
     private lazy var photoIconView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = Constants.Images.photoIcon
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -31,7 +29,6 @@ final class CreatePlaylistViewController: UIViewController {
     
     private lazy var iconButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .white
         button.layer.cornerRadius = 13
         button.clipsToBounds = true
@@ -41,7 +38,6 @@ final class CreatePlaylistViewController: UIViewController {
     
     private lazy var cancelImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = Constants.Images.cancelButton
         imageView.tintColor = .black
         imageView.contentMode = .scaleAspectFill
@@ -50,7 +46,6 @@ final class CreatePlaylistViewController: UIViewController {
     
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = Constants.Colors.backgroundColor
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.clipsToBounds = true
@@ -59,11 +54,23 @@ final class CreatePlaylistViewController: UIViewController {
     
     private lazy var nameTextField: CustomTextField = {
         let field = CustomTextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.backgroundColor = .white
         field.placeholder = "Название плейлиста"
         field.layer.cornerRadius = 10
         field.font = Constants.Font.getFont(name: "Bold", size: 17)
+        field.autocapitalizationType = .none
+        field.autocorrectionType = .no
+        return field
+    }()
+    
+    private lazy var descriptionTextField: CustomTextField = {
+        let field = CustomTextField()
+        field.backgroundColor = .white
+        field.placeholder = "Описание плейлиста"
+        field.layer.cornerRadius = 10
+        field.font = Constants.Font.getFont(name: "Bold", size: 17)
+        field.autocapitalizationType = .none
+        field.autocorrectionType = .no
         return field
     }()
     
@@ -106,12 +113,13 @@ final class CreatePlaylistViewController: UIViewController {
     @objc
     private func createButtonTapped() {
         guard
-              nameTextField.text?.isEmpty != true
+              nameTextField.text?.isEmpty != true,
+              descriptionTextField.text?.isEmpty != true
         else {
             return
         }
         
-        let model = PlaylistViewModel(id: UUID(), name: nameTextField.text!, imageData: (self.imageData ?? UIImage(named: "playlist")?.jpegData(compressionQuality: 1.0)?.base64EncodedString()))
+        let model = PlaylistViewModel(id: UUID(), name: nameTextField.text!, imageData: (self.imageData ?? UIImage(named: "playlist")?.jpegData(compressionQuality: 1.0)?.base64EncodedString()), description: descriptionTextField.text!, totalMinutes: 0)
         presenter?.fetchPlaylist(with: model)
     }
     
@@ -130,6 +138,7 @@ extension CreatePlaylistViewController {
         view.addSubview(cancelButton)
         view.addSubview(nameTextField)
         view.addSubview(createButton)
+        view.addSubview(descriptionTextField)
     }
     
     private func setupViews() {
@@ -162,7 +171,11 @@ extension CreatePlaylistViewController {
         nameTextField.pinRight(to: self.view, 30)
         nameTextField.setHeight(48)
         
-        createButton.pinTop(to: nameTextField.bottomAnchor, 40)
+        descriptionTextField.pinTop(to: nameTextField.bottomAnchor, 15)
+        descriptionTextField.pinHorizontal(to: self.view, 30)
+        descriptionTextField.setHeight(80)
+        
+        createButton.pinTop(to: descriptionTextField.bottomAnchor, 40)
         createButton.pinLeft(to: self.view, 30)
         createButton.pinRight(to: self.view, 30)
         createButton.setHeight(56)

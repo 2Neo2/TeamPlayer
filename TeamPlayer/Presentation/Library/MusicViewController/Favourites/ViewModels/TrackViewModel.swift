@@ -13,4 +13,5 @@ struct TrackViewModel {
     var artist: String
     var imageURL: String
     var trackURL: String
+    var duration: Int? = nil
 }

@@ -12,11 +12,15 @@ struct PlaylistModel: Decodable {
     let name: String
     let imageData: String
     let creatorID: UUID
+    let description: String
+    let totalMinutes: Int
     
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case imageData
         case creatorID
+        case description
+        case totalMinutes
     }
 }

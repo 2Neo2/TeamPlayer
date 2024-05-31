@@ -76,6 +76,10 @@
 		0C0EB88D2BBED98B00340397 /* AlbumPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0EB88C2BBED98B00340397 /* AlbumPresenter.swift */; };
 		0C0EB88F2BBED99500340397 /* AlbumRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0EB88E2BBED99500340397 /* AlbumRouter.swift */; };
 		0C0EB8912BBED9A200340397 /* AlbumConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0EB8902BBED9A200340397 /* AlbumConfigurator.swift */; };
+		0C102E822C0874EC009FEF1F /* Starscream in Frameworks */ = {isa = PBXBuildFile; productRef = 0C102E812C0874EC009FEF1F /* Starscream */; };
+		0C102E842C08756A009FEF1F /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C102E832C08756A009FEF1F /* ChatService.swift */; };
+		0C102E872C08772C009FEF1F /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C102E862C08772C009FEF1F /* SocketManager.swift */; };
+		0C102E892C09C6E8009FEF1F /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C102E882C09C6E8009FEF1F /* MessageModel.swift */; };
 		0C5DE3762BBA14AB00F255D1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5DE3752BBA14AB00F255D1 /* AppDelegate.swift */; };
 		0C5DE3782BBA14AB00F255D1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5DE3772BBA14AB00F255D1 /* SceneDelegate.swift */; };
 		0C5DE37F2BBA14AD00F255D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C5DE37E2BBA14AD00F255D1 /* Assets.xcassets */; };
@@ -155,6 +159,16 @@
 		0C828F812BEB6AB0001AA93A /* PlaylistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C828F802BEB6AB0001AA93A /* PlaylistService.swift */; };
 		0C828F832BEB6B35001AA93A /* PlaylistModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C828F822BEB6B35001AA93A /* PlaylistModel.swift */; };
 		0C828F862BEB6B64001AA93A /* PlaylistViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C828F852BEB6B64001AA93A /* PlaylistViewModel.swift */; };
+		0C83421D2BFC80BF00B4B0A5 /* UserRoomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C83421C2BFC80BF00B4B0A5 /* UserRoomModel.swift */; };
+		0C83421F2BFE069C00B4B0A5 /* StatusTrackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C83421E2BFE069C00B4B0A5 /* StatusTrackModel.swift */; };
+		0C8342212BFF524600B4B0A5 /* RoomRatingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8342202BFF524600B4B0A5 /* RoomRatingModel.swift */; };
+		0C87E8732C052B9300DCA401 /* ChatMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C87E8722C052B9300DCA401 /* ChatMessageModel.swift */; };
+		0C87E8752C052BFB00DCA401 /* ChatMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C87E8742C052BFB00DCA401 /* ChatMessageViewModel.swift */; };
+		0C87E8782C052C7400DCA401 /* ChatMessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C87E8772C052C7400DCA401 /* ChatMessageCollectionViewCell.swift */; };
+		0C87E87A2C052DFB00DCA401 /* TitleChatMessageCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C87E8792C052DFB00DCA401 /* TitleChatMessageCollectionReusableView.swift */; };
+		0C87E87C2C05CD7500DCA401 /* TitlePlaylistCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C87E87B2C05CD7500DCA401 /* TitlePlaylistCollectionReusableView.swift */; };
+		0C87E87E2C05D3A300DCA401 /* CustomMessageTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C87E87D2C05D3A300DCA401 /* CustomMessageTextField.swift */; };
+		0C87E8802C05EEA000DCA401 /* TrackRoomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C87E87F2C05EEA000DCA401 /* TrackRoomCollectionViewCell.swift */; };
 		0C886C292BCF001E00F88C1E /* UserUpdateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C886C282BCF001E00F88C1E /* UserUpdateModel.swift */; };
 		0C886C2B2BCF059800F88C1E /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C886C2A2BCF059800F88C1E /* RoomService.swift */; };
 		0C886C2D2BCF060B00F88C1E /* RoomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C886C2C2BCF060B00F88C1E /* RoomModel.swift */; };
@@ -206,6 +220,12 @@
 		0C96ABD32BD5339900403017 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 0C96ABD22BD5339900403017 /* SnapKit-Dynamic */; };
 		0C96ABD52BD533AD00403017 /* SnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C96ABD42BD533AD00403017 /* SnackBar.swift */; };
 		0C96ABD72BD533CE00403017 /* SnackBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C96ABD62BD533CE00403017 /* SnackBarStyle.swift */; };
+		0CA848552C02A85D00A9826F /* SearchRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA848542C02A85D00A9826F /* SearchRoomViewController.swift */; };
+		0CA848572C02A86600A9826F /* SearchRoomPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA848562C02A86600A9826F /* SearchRoomPresenter.swift */; };
+		0CA8485B2C02A87C00A9826F /* SearchRoomConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA8485A2C02A87C00A9826F /* SearchRoomConfigurator.swift */; };
+		0CA8485D2C03D29700A9826F /* SearchRoomViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA8485C2C03D29700A9826F /* SearchRoomViewCell.swift */; };
+		0CA848602C03D2D900A9826F /* TitleSearchRoomCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA8485F2C03D2D900A9826F /* TitleSearchRoomCollectionReusableView.swift */; };
+		0CA848622C03D8F100A9826F /* SearchRoomRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA848612C03D8F100A9826F /* SearchRoomRouter.swift */; };
 		0CBFAD1B2BD5342600C4AD6A /* UIView+swipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBFAD1A2BD5342600C4AD6A /* UIView+swipe.swift */; };
 		0CBFAD1D2BD5343300C4AD6A /* UIView+snapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBFAD1C2BD5343300C4AD6A /* UIView+snapKit.swift */; };
 		0CBFAD1F2BD5344000C4AD6A /* SnackBar+duration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBFAD1E2BD5344000C4AD6A /* SnackBar+duration.swift */; };
@@ -299,6 +319,9 @@
 		0C0EB88C2BBED98B00340397 /* AlbumPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPresenter.swift; sourceTree = "<group>"; };
 		0C0EB88E2BBED99500340397 /* AlbumRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumRouter.swift; sourceTree = "<group>"; };
 		0C0EB8902BBED9A200340397 /* AlbumConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumConfigurator.swift; sourceTree = "<group>"; };
+		0C102E832C08756A009FEF1F /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
+		0C102E862C08772C009FEF1F /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		0C102E882C09C6E8009FEF1F /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		0C5DE3722BBA14AB00F255D1 /* TeamPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TeamPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C5DE3752BBA14AB00F255D1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C5DE3772BBA14AB00F255D1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -379,6 +402,16 @@
 		0C828F802BEB6AB0001AA93A /* PlaylistService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistService.swift; sourceTree = "<group>"; };
 		0C828F822BEB6B35001AA93A /* PlaylistModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistModel.swift; sourceTree = "<group>"; };
 		0C828F852BEB6B64001AA93A /* PlaylistViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistViewModel.swift; sourceTree = "<group>"; };
+		0C83421C2BFC80BF00B4B0A5 /* UserRoomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRoomModel.swift; sourceTree = "<group>"; };
+		0C83421E2BFE069C00B4B0A5 /* StatusTrackModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTrackModel.swift; sourceTree = "<group>"; };
+		0C8342202BFF524600B4B0A5 /* RoomRatingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomRatingModel.swift; sourceTree = "<group>"; };
+		0C87E8722C052B9300DCA401 /* ChatMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageModel.swift; sourceTree = "<group>"; };
+		0C87E8742C052BFB00DCA401 /* ChatMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageViewModel.swift; sourceTree = "<group>"; };
+		0C87E8772C052C7400DCA401 /* ChatMessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCollectionViewCell.swift; sourceTree = "<group>"; };
+		0C87E8792C052DFB00DCA401 /* TitleChatMessageCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleChatMessageCollectionReusableView.swift; sourceTree = "<group>"; };
+		0C87E87B2C05CD7500DCA401 /* TitlePlaylistCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitlePlaylistCollectionReusableView.swift; sourceTree = "<group>"; };
+		0C87E87D2C05D3A300DCA401 /* CustomMessageTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessageTextField.swift; sourceTree = "<group>"; };
+		0C87E87F2C05EEA000DCA401 /* TrackRoomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackRoomCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C886C282BCF001E00F88C1E /* UserUpdateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUpdateModel.swift; sourceTree = "<group>"; };
 		0C886C2A2BCF059800F88C1E /* RoomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
 		0C886C2C2BCF060B00F88C1E /* RoomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomModel.swift; sourceTree = "<group>"; };
@@ -427,6 +460,12 @@
 		0C96ABCC2BD52F9C00403017 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		0C96ABD42BD533AD00403017 /* SnackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackBar.swift; sourceTree = "<group>"; };
 		0C96ABD62BD533CE00403017 /* SnackBarStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnackBarStyle.swift; sourceTree = "<group>"; };
+		0CA848542C02A85D00A9826F /* SearchRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRoomViewController.swift; sourceTree = "<group>"; };
+		0CA848562C02A86600A9826F /* SearchRoomPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRoomPresenter.swift; sourceTree = "<group>"; };
+		0CA8485A2C02A87C00A9826F /* SearchRoomConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRoomConfigurator.swift; sourceTree = "<group>"; };
+		0CA8485C2C03D29700A9826F /* SearchRoomViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRoomViewCell.swift; sourceTree = "<group>"; };
+		0CA8485F2C03D2D900A9826F /* TitleSearchRoomCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSearchRoomCollectionReusableView.swift; sourceTree = "<group>"; };
+		0CA848612C03D8F100A9826F /* SearchRoomRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRoomRouter.swift; sourceTree = "<group>"; };
 		0CBFAD1A2BD5342600C4AD6A /* UIView+swipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+swipe.swift"; sourceTree = "<group>"; };
 		0CBFAD1C2BD5343300C4AD6A /* UIView+snapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+snapKit.swift"; sourceTree = "<group>"; };
 		0CBFAD1E2BD5344000C4AD6A /* SnackBar+duration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SnackBar+duration.swift"; sourceTree = "<group>"; };
@@ -459,6 +498,7 @@
 				0C96ABCA2BD52E9100403017 /* ProgressHUD in Frameworks */,
 				0C96ABD32BD5339900403017 /* SnapKit-Dynamic in Frameworks */,
 				0CBFAD342BD576E300C4AD6A /* Kingfisher in Frameworks */,
+				0C102E822C0874EC009FEF1F /* Starscream in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,6 +555,7 @@
 		0C05EA372BC80ABD007496F0 /* VaporApi */ = {
 			isa = PBXGroup;
 			children = (
+				0C87E86F2C052B6A00DCA401 /* Chat */,
 				0C828F7D2BEB6A84001AA93A /* Playlist */,
 				0C7AA76A2BCBFB9C001E88D3 /* Room */,
 				0C05EA382BC80ACC007496F0 /* User */,
@@ -648,6 +689,8 @@
 		0C0EB8692BBECC7700340397 /* SelectedRoom */ = {
 			isa = PBXGroup;
 			children = (
+				0C87E8762C052C5900DCA401 /* Cells */,
+				0C87E86E2C052B5500DCA401 /* ViewModels */,
 				0C7A6F152BF35DF000F02776 /* Members */,
 				0C886C342BD006F800F88C1E /* Custom */,
 				0C0EB86A2BBECC8700340397 /* SelectedRoomViewController.swift */,
@@ -683,6 +726,14 @@
 				0C0EB8902BBED9A200340397 /* AlbumConfigurator.swift */,
 			);
 			path = Album;
+			sourceTree = "<group>";
+		};
+		0C102E852C08771D009FEF1F /* SocketManager */ = {
+			isa = PBXGroup;
+			children = (
+				0C102E862C08772C009FEF1F /* SocketManager.swift */,
+			);
+			path = SocketManager;
 			sourceTree = "<group>";
 		};
 		0C5DE3692BBA14AB00F255D1 = {
@@ -856,6 +907,7 @@
 		0C5DE3CB2BBC074B00F255D1 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				0CA848532C02A84C00A9826F /* SearchRoom */,
 				0C8D85D12BE4EAC1005CCA9F /* Rating */,
 				0C8D85BC2BE3D63A005CCA9F /* PublicRooms */,
 				0C8D85BB2BE3D62E005CCA9F /* Releases */,
@@ -1042,6 +1094,8 @@
 				0C886C2C2BCF060B00F88C1E /* RoomModel.swift */,
 				0CBFAD222BD5455000C4AD6A /* JoinRoomModel.swift */,
 				0C0C643C2BDB80D200D753DB /* CreateRoomModel.swift */,
+				0C83421C2BFC80BF00B4B0A5 /* UserRoomModel.swift */,
+				0C8342202BFF524600B4B0A5 /* RoomRatingModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1138,6 +1192,52 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		0C87E86E2C052B5500DCA401 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0C87E8742C052BFB00DCA401 /* ChatMessageViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		0C87E86F2C052B6A00DCA401 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				0C87E8712C052B7700DCA401 /* Servicies */,
+				0C87E8702C052B7200DCA401 /* Models */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		0C87E8702C052B7200DCA401 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0C87E8722C052B9300DCA401 /* ChatMessageModel.swift */,
+				0C102E882C09C6E8009FEF1F /* MessageModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0C87E8712C052B7700DCA401 /* Servicies */ = {
+			isa = PBXGroup;
+			children = (
+				0C102E852C08771D009FEF1F /* SocketManager */,
+				0C102E832C08756A009FEF1F /* ChatService.swift */,
+			);
+			path = Servicies;
+			sourceTree = "<group>";
+		};
+		0C87E8762C052C5900DCA401 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0C87E8772C052C7400DCA401 /* ChatMessageCollectionViewCell.swift */,
+				0C87E8792C052DFB00DCA401 /* TitleChatMessageCollectionReusableView.swift */,
+				0C87E87B2C05CD7500DCA401 /* TitlePlaylistCollectionReusableView.swift */,
+				0C87E87F2C05EEA000DCA401 /* TrackRoomCollectionViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		0C886C2E2BCF06C400F88C1E /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -1159,6 +1259,7 @@
 			children = (
 				0C886C352BD0072900F88C1E /* CustomMembersButton.swift */,
 				0C886C372BD1773C00F88C1E /* CustomMembersView.swift */,
+				0C87E87D2C05D3A300DCA401 /* CustomMessageTextField.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1325,6 +1426,27 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		0CA848532C02A84C00A9826F /* SearchRoom */ = {
+			isa = PBXGroup;
+			children = (
+				0CA8485E2C03D2A100A9826F /* Cells */,
+				0CA848542C02A85D00A9826F /* SearchRoomViewController.swift */,
+				0CA848562C02A86600A9826F /* SearchRoomPresenter.swift */,
+				0CA8485A2C02A87C00A9826F /* SearchRoomConfigurator.swift */,
+				0CA848612C03D8F100A9826F /* SearchRoomRouter.swift */,
+			);
+			path = SearchRoom;
+			sourceTree = "<group>";
+		};
+		0CA8485E2C03D2A100A9826F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0CA8485C2C03D29700A9826F /* SearchRoomViewCell.swift */,
+				0CA8485F2C03D2D900A9826F /* TitleSearchRoomCollectionReusableView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		0CBFAD242BD56B7B00C4AD6A /* Servicies */ = {
 			isa = PBXGroup;
 			children = (
@@ -1339,6 +1461,7 @@
 				0CBFAD282BD56F5C00C4AD6A /* TrackModel.swift */,
 				0CBFAD2A2BD573BD00C4AD6A /* FavouritesModel.swift */,
 				0C8D85B92BE3678C005CCA9F /* AlbumModel.swift */,
+				0C83421E2BFE069C00B4B0A5 /* StatusTrackModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1414,6 +1537,7 @@
 				0C96ABD02BD5339900403017 /* SnapKit */,
 				0C96ABD22BD5339900403017 /* SnapKit-Dynamic */,
 				0CBFAD332BD576E300C4AD6A /* Kingfisher */,
+				0C102E812C0874EC009FEF1F /* Starscream */,
 			);
 			productName = TeamPlayer;
 			productReference = 0C5DE3722BBA14AB00F255D1 /* TeamPlayer.app */;
@@ -1448,6 +1572,7 @@
 				0C96ABC82BD52E9100403017 /* XCRemoteSwiftPackageReference "ProgressHUD" */,
 				0C96ABCF2BD5339900403017 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				0CBFAD322BD576E300C4AD6A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				0C102E802C0874EC009FEF1F /* XCRemoteSwiftPackageReference "Starscream" */,
 			);
 			productRefGroup = 0C5DE3732BBA14AB00F255D1 /* Products */;
 			projectDirPath = "";
@@ -1536,8 +1661,10 @@
 				0CBFAD3F2BDA3A1700C4AD6A /* SearchResultButton.swift in Sources */,
 				0C7AA7712BCC2096001E88D3 /* CustomButtonSecurity.swift in Sources */,
 				0C0EB8822BBED67A00340397 /* HomeViewController.swift in Sources */,
+				0CA8485D2C03D29700A9826F /* SearchRoomViewCell.swift in Sources */,
 				0C0EB8572BBEBBFF00340397 /* LibraryConfigurator.swift in Sources */,
 				0C0EB8772BBECCFF00340397 /* FavouritesConfigurator.swift in Sources */,
+				0CA848602C03D2D900A9826F /* TitleSearchRoomCollectionReusableView.swift in Sources */,
 				0CBFAD372BD5900B00C4AD6A /* PlayerViewController.swift in Sources */,
 				0CBFAD232BD5455000C4AD6A /* JoinRoomModel.swift in Sources */,
 				0C7A6F0C2BEDDCAB00F02776 /* TracksRouter.swift in Sources */,
@@ -1556,6 +1683,7 @@
 				0C0EB86D2BBECC9400340397 /* SelectedRoomPresenter.swift in Sources */,
 				0C7AA77F2BCC2EF0001E88D3 /* EmailPresenter.swift in Sources */,
 				0C0C64B62BE1EF6D00D753DB /* TitleHeaderCollectionReusableView.swift in Sources */,
+				0CA848622C03D8F100A9826F /* SearchRoomRouter.swift in Sources */,
 				0C0C64B42BE1DB9500D753DB /* ArtistRoomsViewModel.swift in Sources */,
 				0C8C59692BC54B3F005C9D32 /* SearchTextField.swift in Sources */,
 				0C828F782BEA30F1001AA93A /* MusicPlayerRouter.swift in Sources */,
@@ -1566,12 +1694,14 @@
 				0C0EB8552BBEBBEC00340397 /* LibraryRouter.swift in Sources */,
 				0C0EB8632BBEBE2500340397 /* RoomsRouter.swift in Sources */,
 				0C05EA412BC80C4C007496F0 /* UserModel.swift in Sources */,
+				0C87E8782C052C7400DCA401 /* ChatMessageCollectionViewCell.swift in Sources */,
 				0C886C402BD1910500F88C1E /* JoinRouter.swift in Sources */,
 				0C5DE3DD2BBC5BFA00F255D1 /* DefaultGriddedContentCollectionViewDelegate.swift in Sources */,
 				0CEEC9C02BE905780087C75D /* Protocols.swift in Sources */,
 				0C5DE3E02BBC633C00F255D1 /* LibraryItemViewModel.swift in Sources */,
 				0CEEC9C62BE9069F0087C75D /* MusicPlayerView.swift in Sources */,
 				0C7AA7792BCC2ED1001E88D3 /* PasswordPresenter.swift in Sources */,
+				0CA8485B2C02A87C00A9826F /* SearchRoomConfigurator.swift in Sources */,
 				0C05EA0C2BC7E253007496F0 /* AccessConfigurator.swift in Sources */,
 				0CEEC9BE2BE903CD0087C75D /* MusicPlayerModel.swift in Sources */,
 				0C7AA7812BCC2EFB001E88D3 /* EmailRouter.swift in Sources */,
@@ -1590,10 +1720,12 @@
 				0C7AA77D2BCC2EE4001E88D3 /* PasswordConfigurator.swift in Sources */,
 				0C0EB8752BBECCF500340397 /* FavouritesPresenter.swift in Sources */,
 				0C5DE3782BBA14AB00F255D1 /* SceneDelegate.swift in Sources */,
+				0C83421D2BFC80BF00B4B0A5 /* UserRoomModel.swift in Sources */,
 				0C05EA362BC7FE64007496F0 /* AuthConfigurator.swift in Sources */,
 				0C94BBA82BC4275F0078968B /* CreateRoomViewController.swift in Sources */,
 				0C05EA062BC7E22F007496F0 /* AccessViewController.swift in Sources */,
 				0C7AA7692BCBF5E3001E88D3 /* ProfileServiceStorage.swift in Sources */,
+				0C87E87C2C05CD7500DCA401 /* TitlePlaylistCollectionReusableView.swift in Sources */,
 				0C0EB87C2BBED64700340397 /* AccountPresenter.swift in Sources */,
 				0C8C595A2BC54329005C9D32 /* CreatePlaylistRouter.swift in Sources */,
 				0C886C2B2BCF059800F88C1E /* RoomService.swift in Sources */,
@@ -1617,10 +1749,13 @@
 				0C0EB86B2BBECC8700340397 /* SelectedRoomViewController.swift in Sources */,
 				0C886C3C2BD17F2800F88C1E /* JoinViewController.swift in Sources */,
 				0C8C596D2BC5563F005C9D32 /* URLSession+ext.swift in Sources */,
+				0C8342212BFF524600B4B0A5 /* RoomRatingModel.swift in Sources */,
 				0C05EA082BC7E23A007496F0 /* AccessPresenter.swift in Sources */,
 				0C8D85D72BE4EAE3005CCA9F /* RatingRouter.swift in Sources */,
 				0C96ABCD2BD52F9C00403017 /* UIBlockingProgressHUD.swift in Sources */,
+				0CA848552C02A85D00A9826F /* SearchRoomViewController.swift in Sources */,
 				0C7A6EFA2BEB91FD00F02776 /* DownloadedConfigurator.swift in Sources */,
+				0C102E842C08756A009FEF1F /* ChatService.swift in Sources */,
 				0C74C00D2BE6B5CA00267595 /* SearchCollectionViewCell.swift in Sources */,
 				0C05EA3C2BC80B52007496F0 /* UserService.swift in Sources */,
 				0CBFAD3D2BD5917A00C4AD6A /* PlayerRouter.swift in Sources */,
@@ -1630,13 +1765,19 @@
 				0C05EA322BC7FE47007496F0 /* AuthPresenter.swift in Sources */,
 				0C828F832BEB6B35001AA93A /* PlaylistModel.swift in Sources */,
 				0C0EB87A2BBED63C00340397 /* AccountViewController.swift in Sources */,
+				0C87E87E2C05D3A300DCA401 /* CustomMessageTextField.swift in Sources */,
 				0C0EB8732BBECCE700340397 /* FavouritesRouter.swift in Sources */,
+				0C83421F2BFE069C00B4B0A5 /* StatusTrackModel.swift in Sources */,
 				0C886C422BD1911000F88C1E /* JoinConfigurator.swift in Sources */,
 				0C5DE3C72BBAE8DB00F255D1 /* CustomTabBarController.swift in Sources */,
 				0C7A6F172BF35E0000F02776 /* MembersViewController.swift in Sources */,
 				0C7AA7602BC944C1001E88D3 /* UserAuthModel.swift in Sources */,
+				0C102E872C08772C009FEF1F /* SocketManager.swift in Sources */,
 				0C7A6EF82BEB91F200F02776 /* DownloadedRouter.swift in Sources */,
+				0C87E87A2C052DFB00DCA401 /* TitleChatMessageCollectionReusableView.swift in Sources */,
 				0C8C59622BC5485A005C9D32 /* SearchPresenter.swift in Sources */,
+				0C87E8752C052BFB00DCA401 /* ChatMessageViewModel.swift in Sources */,
+				0C102E892C09C6E8009FEF1F /* MessageModel.swift in Sources */,
 				0C05EA242BC7E2EA007496F0 /* HelpConfigurator.swift in Sources */,
 				0C05EA2C2BC7FE2B007496F0 /* RegPresenter.swift in Sources */,
 				0C8D85C02BE3D659005CCA9F /* PublicRoomsPresenter.swift in Sources */,
@@ -1654,6 +1795,7 @@
 				0C7AA7752BCC2E69001E88D3 /* EmailViewController.swift in Sources */,
 				0C05EA262BC7FE0B007496F0 /* MainPresenter.swift in Sources */,
 				0C0C64AD2BE1DA4400D753DB /* ArtistRoomsCollectionViewCell.swift in Sources */,
+				0C87E8732C052B9300DCA401 /* ChatMessageModel.swift in Sources */,
 				0C0C64AB2BE1DA2F00D753DB /* PublicRoomsCollectionViewCell.swift in Sources */,
 				0C5DE3BF2BBAB5F500F255D1 /* AuthViewController.swift in Sources */,
 				0C7AA76E2BCC1C6F001E88D3 /* UIController+tabBar.swift in Sources */,
@@ -1667,10 +1809,12 @@
 				0CBFAD272BD56B9A00C4AD6A /* YandexMusicService.swift in Sources */,
 				0CEEC9C42BE9066A0087C75D /* MusicPlayerPresenter.swift in Sources */,
 				0C8D85D52BE4EAD8005CCA9F /* RatingPresenter.swift in Sources */,
+				0C87E8802C05EEA000DCA401 /* TrackRoomCollectionViewCell.swift in Sources */,
 				0C886C332BCF2F5300F88C1E /* RoomListCell.swift in Sources */,
 				0C7A6EF62BEB91E600F02776 /* DownloadedPresenter.swift in Sources */,
 				0C8C596F2BC5565D005C9D32 /* Array+ext.swift in Sources */,
 				0C8D85BE2BE3D64E005CCA9F /* PublicRoomsViewController.swift in Sources */,
+				0CA848572C02A86600A9826F /* SearchRoomPresenter.swift in Sources */,
 				0C0EB8532BBEBBE000340397 /* LibraryPresenter.swift in Sources */,
 				0C8C59662BC54874005C9D32 /* SearchConfigurator.swift in Sources */,
 				0CBFAD392BD5915800C4AD6A /* PlayerPresenter.swift in Sources */,
@@ -1912,6 +2056,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0C102E802C0874EC009FEF1F /* XCRemoteSwiftPackageReference "Starscream" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/daltoniam/Starscream";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.8;
+			};
+		};
 		0C7AA7652BCBDCEC001E88D3 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper.git";
@@ -1947,6 +2099,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0C102E812C0874EC009FEF1F /* Starscream */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0C102E802C0874EC009FEF1F /* XCRemoteSwiftPackageReference "Starscream" */;
+			productName = Starscream;
+		};
 		0C7AA7662BCBDCEC001E88D3 /* SwiftKeychainWrapper */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0C7AA7652BCBDCEC001E88D3 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;

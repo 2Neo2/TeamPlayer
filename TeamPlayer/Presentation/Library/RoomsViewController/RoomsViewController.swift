@@ -210,6 +210,7 @@ extension RoomsViewController: UITableViewDataSource {
 extension RoomsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedRoom = rooms[indexPath.row]
+        MiniPlayerService.shared.markDirty = true
         presenter?.didRoomTapped(viewModel: selectedRoom)
     }
     
@@ -221,25 +222,15 @@ extension RoomsViewController: UITableViewDelegate {
 extension RoomsViewController {
     func updateUI(with models: [RoomViewModel]) {
         rooms = models
-        
-        let newRowCount = rooms.count
-        print(newRowCount)
-        print(oldRowCount)
-        if newRowCount > oldRowCount {
-            let diff = newRowCount - oldRowCount
-            let indexPathsToInsert = rooms.suffix(diff).indices.map { IndexPath(row: $0, section: 0) }
-            tableView.performBatchUpdates({
-                tableView.insertRows(at: indexPathsToInsert, with: .automatic)
-            }, completion: nil)
-        }
-        
-        oldRowCount = newRowCount
+    
         if self.rooms.count != 0 {
             self.infoLabel.isHidden = true
         } else {
             self.infoLabel.isHidden = false
             self.tableView.isHidden = true
         }
+        
+        self.tableView.reloadData()
     }
 }
 

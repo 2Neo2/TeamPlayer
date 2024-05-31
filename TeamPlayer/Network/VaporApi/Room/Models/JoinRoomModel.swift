@@ -12,7 +12,8 @@ struct JoinRoomModel: Decodable {
     let name: String?
     let invitationCode: String
     let isPrivate: Bool
-    let creator: UUID?
+    let creator: String?
+    let description: String
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -20,5 +21,6 @@ struct JoinRoomModel: Decodable {
         case invitationCode
         case isPrivate
         case creator
+        case description
     }
 }

@@ -20,8 +20,7 @@ final class TracksPresenter: TracksPresenterProtocol {
     
     func fetchData() {
         UIBlockingProgressHUD.show()
-        
-        yandexService.getTracksByIds(with: trackIds) { result in
+        yandexService.getPublicOnDayTracks() { result in
             switch result {
             case .success(let models):
                 let tracks = models.map {
@@ -30,10 +29,10 @@ final class TracksPresenter: TracksPresenterProtocol {
                         name: $0.title,
                         artist: $0.artist,
                         imageURL: $0.img,
-                        trackURL: $0.downloadLink
+                        trackURL: $0.downloadLink,
+                        duration: $0.duration
                     )
                 }
-                
                 DispatchQueue.main.async {
                     self.view?.updateView(with: tracks)
                 }

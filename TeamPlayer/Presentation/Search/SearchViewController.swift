@@ -111,6 +111,11 @@ final class SearchViewController: UIViewController {
         guard let result = resultModel else { return }
         presenter?.fetchLike(with: String(result.id))
     }
+    
+    @objc
+    private func resultSearchButtonTapped() {
+        MiniPlayerService.shared.currentTrack = self.resultModel
+    }
 }
 
 extension SearchViewController {
@@ -131,7 +136,7 @@ extension SearchViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapOutsideTextField))
         tapGesture.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGesture)
-        
+        self.resultSearchButton.addTarget(self, action: #selector(resultSearchButtonTapped), for: .touchUpInside)
         self.configureCollectionView()
         
         if fromAnotherView! {
@@ -233,7 +238,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         ) as? SearchCollectionViewCell else {
             return UICollectionViewCell()
         }
-        // TODO: Configure cell.
         let model = recentlyTracks[indexPath.row]
         
         cell.configure(with: model)
@@ -245,7 +249,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //let selectedTrack = recentlyTracks[indexPath.row]
+        let recentlyTrack = recentlyTracks[indexPath.row]
+        MiniPlayerService.shared.currentTrack = recentlyTrack
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

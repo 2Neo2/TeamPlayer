@@ -9,7 +9,7 @@ import UIKit
 
 protocol CreateRoomPresenterProtocol {
     func hideView()
-    func fetchRoom(with name: String, isPrivate value: Bool, image data: String?)
+    func fetchRoom(with name: String, isPrivate value: Bool, image data: String?, description line: String)
 }
 
 final class CreateRoomPresenter: CreateRoomPresenterProtocol {
@@ -22,15 +22,18 @@ final class CreateRoomPresenter: CreateRoomPresenterProtocol {
         router?.hideView()
     }
     
-    func fetchRoom(with name: String, isPrivate value: Bool, image data: String?) {
+    func fetchRoom(with name: String, isPrivate value: Bool, image data: String?, description line: String) {
         guard let token = UserDataStorage().token else {
             return
         }
         
-        roomsService.createRoom(model: RoomViewModel(id: UUID(), name: name, isPrivate: value, image: data), token: token) { [weak self] result in
+        roomsService.createRoom(model: RoomViewModel(
+            id: UUID(),
+            name: name,
+            isPrivate: value,
+            image: data, desctiption: line), token: token) { [weak self] result in
             switch result {
             case .success(let code):
-                print(code)
                 self?.pasteboard.string = code
                 DispatchQueue.main.async {
                     self?.hideView()
