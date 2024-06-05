@@ -2,7 +2,7 @@
 //  PlayerPresenter.swift
 //  TeamPlayer
 //
-//  Created by Иван Доронин on 21.04.2024.
+//  Created by Иван Доронин on 21.04.2024.x
 //
 
 import Foundation
@@ -30,7 +30,8 @@ final class PlayerPresenter: PlayerPresenterProtocol {
                     name: track.title,
                     artist: track.artist,
                     imageURL: track.img,
-                    trackURL: track.downloadLink
+                    trackURL: track.downloadLink,
+                    duration: track.duration
                 )
                 self?.view?.updateTrack(with: currentTrack)
             }

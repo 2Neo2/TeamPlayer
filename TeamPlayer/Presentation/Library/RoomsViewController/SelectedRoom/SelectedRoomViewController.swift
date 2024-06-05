@@ -278,6 +278,7 @@ final class SelectedRoomViewController: UIViewController {
         configureMessageCollectionView()
         
         presenter?.connectToChat()
+        presenter?.connectToStream()
         presenter?.fetchUserData(by: currentRoom?.creatorID ?? UUID())
     }
     
@@ -334,6 +335,7 @@ final class SelectedRoomViewController: UIViewController {
         
         if self.playButton.isSelected {
             playIcon.image = Constants.Images.pauseIcon
+            presenter?.fetchStream()
         } else {
             playIcon.image = Constants.Images.playIcon
         }

@@ -10,7 +10,6 @@ import UIKit
 final class SearchViewController: UIViewController {
     private lazy var accountButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .white
         button.layer.cornerRadius = 30
         button.layer.borderWidth = 1
@@ -22,7 +21,6 @@ final class SearchViewController: UIViewController {
     
     private lazy var accountImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = Constants.Images.accountPerson
         imageView.contentMode = .scaleAspectFill
         imageView.tintColor = Constants.Colors.general
@@ -31,7 +29,6 @@ final class SearchViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.Font.getFont(name: "Bold", size: 24)
         label.text = "Поиск контента"
         label.textAlignment = .left
@@ -40,7 +37,6 @@ final class SearchViewController: UIViewController {
     
     private lazy var searchTextField: SearchTextField = {
         let field = SearchTextField()
-        field.translatesAutoresizingMaskIntoConstraints = false
         field.layer.borderWidth = 1
         field.layer.borderColor = Constants.Colors.boldGray!.cgColor
         field.layer.cornerRadius = 10
@@ -54,7 +50,6 @@ final class SearchViewController: UIViewController {
     
     private lazy var resultLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Результат поиска"
         label.font = Constants.Font.getFont(name: "Bold", size: 20)
         label.textAlignment = .left
@@ -64,7 +59,6 @@ final class SearchViewController: UIViewController {
     
     private lazy var favouritesButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Добавить в избранное", for: .normal)
         button.layer.cornerRadius = 10
         button.backgroundColor = Constants.Colors.general

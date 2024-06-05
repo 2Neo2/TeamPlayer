@@ -10,25 +10,30 @@ import Starscream
 
 
 protocol SocketManagerProtocol {
-    func connectToChat(with url: URL)
+    func connectToSocket(with url: URL)
     func send(message: ChatMessageModel)
     func observeMessages(completion: @escaping(MessageModel?) -> Void)
+    func observeStreamCompletion(completion: @escaping(Data?) -> Void)
 }
 
 final class SocketManager: NSObject {
     private var isConnected: Bool = false
     private var socket: WebSocket!
     private var observingMessagesCompletion: ((MessageModel?) -> Void)?
+    private var observingStreamCompletion: ((Data?) -> Void)?
 }
 
 extension SocketManager: SocketManagerProtocol {
-    func connectToChat(with url: URL) {
+    func connectToSocket(with url: URL) {
         var request = URLRequest(url: url)
-        request.timeoutInterval = 5
         
         self.socket = WebSocket(request: request)
         self.socket.delegate = self
         self.socket.connect()
+    }
+    
+    func sendStreamRequest(message: String) {
+        self.socket.write(string: message)
     }
     
     func send(message: ChatMessageModel) {
@@ -49,6 +54,10 @@ extension SocketManager: SocketManagerProtocol {
     func observeMessages(completion: @escaping (MessageModel?) -> Void) {
         self.observingMessagesCompletion = completion
     }
+    
+    func observeStreamCompletion(completion: @escaping (Data?) -> Void) {
+        self.observingStreamCompletion = completion
+    }
 }
 
 extension SocketManager: WebSocketDelegate {
@@ -68,7 +77,7 @@ extension SocketManager: WebSocketDelegate {
             }
             observingMessagesCompletion?(messageModel)
         case .binary(let data):
-            print("data: \(data)")
+            observingStreamCompletion?(data)
         case .ping(_):
             break
         case .pong(_):

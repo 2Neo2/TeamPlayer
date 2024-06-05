@@ -52,14 +52,15 @@ final class PlaylistPresenter: PlaylistPresenterProtocol {
             }
             switch result {
             case .success(let models):
-                tracks = models.map {
-                    MusicObjectViewModel(
+                tracks = models.map {                    
+                    return MusicObjectViewModel(
                         id: $0.id,
                         trackID:$0.trackID,
                         name: $0.title,
                         artist: $0.artist,
                         imgURL: $0.imgLink,
-                        musicURL: $0.musicLink
+                        musicURL: $0.musicLink,
+                        duration: $0.duration
                     )
                 }
             case .failure(let error):

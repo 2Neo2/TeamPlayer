@@ -12,7 +12,7 @@ final class SearchResultButton: UIButton {
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = Constants.Font.getFont(name: "Black", size: 15)
+        label.font = Constants.Font.getFont(name: "Black", size: 13)
         label.textColor = .black
         return label
     }()
@@ -37,7 +37,8 @@ final class SearchResultButton: UIButton {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        imageView.image = Constants.Images.musicBarIcon
+        imageView.image = Constants.Images.musicNoteIcon
+        imageView.tintColor = Constants.Colors.general
         imageView.layer.cornerRadius = 6
         return imageView
     }()
@@ -73,11 +74,13 @@ extension SearchResultButton {
         trackIcon.pinBottom(to: self, 13)
         trackIcon.setWidth(50)
         
-        nameLabel.pinLeft(to: trackIcon.trailingAnchor, 15)
+        nameLabel.pinLeft(to: trackIcon.trailingAnchor, 11)
         nameLabel.pinTop(to: self, 16)
+        nameLabel.setWidth(180)
         
         artistLabel.pinTop(to: nameLabel.bottomAnchor, 7)
         artistLabel.pinLeft(to: trackIcon.trailingAnchor, 11)
+        artistLabel.setWidth(180)
         
         iconPlay.pinTop(to: self, 16)
         iconPlay.pinRight(to: self, 13)

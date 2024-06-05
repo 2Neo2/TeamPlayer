@@ -13,7 +13,7 @@ final class DownloadedViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.Font.getFont(name: "Bold", size: 24)
-        label.text = "Музыка"
+        label.text = "Музыка с устройства"
         label.textAlignment = .left
         return label
     }()
@@ -69,7 +69,6 @@ final class DownloadedViewController: UIViewController {
     
     @objc
     private func plusButtonTapped() {
-        print("pusButton")
         pickMusic()
     }
     

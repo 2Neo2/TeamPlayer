@@ -106,6 +106,7 @@ extension RoomListCell {
         
         nameRoomLabel.pinLeft(to: roomImageView.trailingAnchor, 5)
         nameRoomLabel.pinTop(to: self.contentView, 16)
+        nameRoomLabel.setWidth(180)
         
         musicRoomImageView.pinCenterY(to: self.contentView)
         musicRoomImageView.pinRight(to: self.contentView, 13)

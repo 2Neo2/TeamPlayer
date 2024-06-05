@@ -38,7 +38,8 @@ final class MiniPlayerService: MiniPlayerProtocol {
                     name: model.title,
                     artist: model.artist,
                     imageURL: model.img,
-                    trackURL: model.downloadLink
+                    trackURL: model.downloadLink,
+                    duration: model.duration
                 )
             } else {
                 return nil
@@ -56,7 +57,7 @@ final class MiniPlayerService: MiniPlayerProtocol {
                     duration: model.duration!
                 )
                 self.currentTime = .zero
-                self.playTrack()
+//                self.playTrack()
                 notifyObserves()
             } else {
                 self.cachedTrack = nil
@@ -92,17 +93,6 @@ final class MiniPlayerService: MiniPlayerProtocol {
                 print(error.localizedDescription)
             }
         }
-    }
-    
-    private func makeModel(_ model: TrackModel?) -> TrackViewModel? {
-        guard let model = model else { return nil }
-        return TrackViewModel(
-            id: model.trackID,
-            name: model.title,
-            artist: model.artist,
-            imageURL: model.img,
-            trackURL: model.downloadLink
-        )
     }
     
     func playTrack() {

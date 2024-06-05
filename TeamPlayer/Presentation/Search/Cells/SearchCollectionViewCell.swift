@@ -25,7 +25,6 @@ class SearchCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.Font.getFont(name: "Black", size: 13)
-        label.numberOfLines = 0
         label.textColor = .black
         return label
     }()
@@ -88,10 +87,12 @@ extension SearchCollectionViewCell {
         
         titleMusicLabel.pinLeft(to: musicImageView.trailingAnchor, 11)
         titleMusicLabel.pinTop(to: self.contentView, 14)
-        titleMusicLabel.setWidth(200)
+        titleMusicLabel.setWidth(180)
         
         artistLabel.pinTop(to: titleMusicLabel.bottomAnchor, 2)
         artistLabel.pinLeft(to: musicImageView.trailingAnchor, 11)
+        artistLabel.setWidth(180)
+        
         
         musicNoteIcon.pinCenterY(to: contentView)
         musicNoteIcon.pinRight(to: contentView, 15)

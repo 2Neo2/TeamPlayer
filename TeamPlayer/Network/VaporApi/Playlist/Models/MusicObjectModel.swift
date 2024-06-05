@@ -15,4 +15,5 @@ struct MusicObjectModel: Decodable {
     var artist: String
     var imgLink: String
     var musicLink: String
+    var duration: Int
 }

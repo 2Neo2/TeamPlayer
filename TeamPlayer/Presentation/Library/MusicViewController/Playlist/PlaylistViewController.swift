@@ -93,7 +93,12 @@ final class PlaylistViewController: UIViewController {
         layoutViews()
         
         configureView()
-        presenter?.fetchData(with: self.currentModel?.id)
+        //presenter?.fetchData(with: self.currentModel?.id)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.presenter?.fetchData(with: self.currentModel?.id)
     }
     
     @objc
@@ -218,7 +223,8 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
             name: track.name,
             artist: track.artist,
             imageURL: track.imgURL,
-            trackURL: track.musicURL
+            trackURL: track.musicURL,
+            duration: track.duration
         )
     }
 

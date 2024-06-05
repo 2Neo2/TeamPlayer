@@ -202,7 +202,7 @@ final class MusicPlayerView: UIView,
                 if self.musicPlayButton.isSelected == false {
                     self.musicPlayButton.isSelected.toggle()
                     self.musicPlayButtonIcon.image = Constants.Images.pauseIcon
-                    self.interactor.loadPlay(Model.Play.Request())
+//                    self.interactor.loadPlay(Model.Play.Request())
                     self.startUpdatingProgressView()
                     self.isPlay = true
                 }
@@ -213,6 +213,7 @@ final class MusicPlayerView: UIView,
                 self.musicArtistNameLabel.text = self.currentTrack?.artist
                 self.musicImageView.kf.indicatorType = .activity
                 self.musicImageView.kf.setImage(with: URL(string: musicLink))
+                self.interactor.loadPlay(Model.Play.Request())
             }
 
         }

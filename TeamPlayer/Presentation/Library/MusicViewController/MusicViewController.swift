@@ -148,6 +148,10 @@ final class MusicViewController: UIViewController {
         insertViews()
         setupViews()
         layoutViews()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         presenter?.fetchData()
     }

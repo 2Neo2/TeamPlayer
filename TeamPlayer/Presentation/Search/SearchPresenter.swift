@@ -32,7 +32,8 @@ final class SearchPresenter: SearchPresenterProtocol {
                     name: model.title,
                     artist: model.artist,
                     imageURL: model.img,
-                    trackURL: model.downloadLink
+                    trackURL: model.downloadLink,
+                    duration: model.duration
                 )
                 DispatchQueue.main.async {
                     self.view?.updateUI(with: viewModel)

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 protocol SelectedRoomPresenterProtocol {
     func openMembersFlow(with id: UUID?)
@@ -20,8 +21,13 @@ final class SelectedRoomPresenter: SelectedRoomPresenterProtocol {
     var router: SelectedRoomRouter?
     private var userService = UserService()
     private var roomService = RoomService()
-    private var socketManager = SocketManager()
+    private var socketChatManager = SocketManager()
+    private var socketStreamManager = SocketManager()
     private var chatService = ChatService()
+    private var audioBuffer: Data = Data()
+    private let minBufferSize: Int = 4096 * 15
+    private var player: AVPlayer!
+    private var playerItem: AVPlayerItem!
     
     func openMembersFlow(with id: UUID?) {
         guard let id = id else { return }
@@ -61,13 +67,38 @@ final class SelectedRoomPresenter: SelectedRoomPresenterProtocol {
         
     }
     
+    private func playAudioData(data: Data) {
+        audioBuffer.append(data)
+        
+        if data.isEmpty {
+            playBufferedAudio()
+        }
+    }
+    
+    private func playBufferedAudio() {
+        let temporaryDirectory = NSTemporaryDirectory()
+        let filePath = (temporaryDirectory as NSString).appendingPathComponent("audioStream.mp3")
+        let fileURL = URL(fileURLWithPath: filePath)
+        
+        do {
+            try audioBuffer.write(to: fileURL)
+        } catch {
+            print("Failed to write audio data to file: \(error.localizedDescription)")
+            return
+        }
+        
+        playerItem = AVPlayerItem(url: fileURL)
+        player = AVPlayer(playerItem: playerItem)
+        player.play()
+    }
+    
     func fetchChatHistory(by id: UUID?) {
         guard let token = UserDataStorage().token,
               let roomId = id
         else { return }
         
         var resultData = [ChatMessageViewModel]()
-        var group = DispatchGroup()
+        let group = DispatchGroup()
         group.enter()
         
         chatService.fetchChatHistory(token: token, with: roomId) { [weak self] result in
@@ -109,13 +140,23 @@ final class SelectedRoomPresenter: SelectedRoomPresenterProtocol {
             self.view?.updateMessageCollectionView(with: resultData)
         }
     }
-
+    
+    func connectToStream() {
+        let link = Constants.Network.defaultVaporBaseURL + "/music-rooms/stream"
+        guard let url = URL(string: link) else { return }
+        
+        self.socketStreamManager.connectToSocket(with: url)
+        self.socketStreamManager.observeStreamCompletion { [weak self] data in
+            guard let track = data else { return }
+            self?.playAudioData(data: track)
+        }
+    }
     
     func connectToChat() {
         let link = Constants.Network.defaultVaporBaseURL + "/chats/connect"
         guard let url = URL(string: link) else { return }
-        self.socketManager.connectToChat(with: url)
-        self.socketManager.observeMessages { [weak self] message in
+        self.socketChatManager.connectToSocket(with: url)
+        self.socketChatManager.observeMessages { [weak self] message in
             guard let line = message else { return }
             self?.userService.fetchUserByIdWithData(id: line.creator) { [weak self] result in
                 switch result {
@@ -135,6 +176,10 @@ final class SelectedRoomPresenter: SelectedRoomPresenterProtocol {
         }
     }
     
+    func fetchStream() {
+        socketStreamManager.sendStreamRequest(message: "1")
+    }
+    
     func fetchMessage(with message: String, roomID room: UUID?) {
         guard let userID = userService.userID, let roomID = room else { return }
         let model = ChatMessageModel(
@@ -143,7 +188,7 @@ final class SelectedRoomPresenter: SelectedRoomPresenterProtocol {
             creator: IdModel(id: UUID(uuidString: userID)!),
             musicRoom: IdModel(id: roomID)
         )
-        socketManager.send(message: model)
+        socketChatManager.send(message: model)
     }
     
     func openSearchFlow() {

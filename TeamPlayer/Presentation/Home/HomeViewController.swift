@@ -13,7 +13,6 @@ enum HomeSectionType{
     
     var title: String {
         switch self {
-            
         case .publicRooms:
             return "Публичные сообщества"
         case .newReleases:

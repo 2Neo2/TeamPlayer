@@ -14,4 +14,5 @@ struct MusicObjectViewModel {
     var artist: String
     var imgURL: String
     var musicURL: String
+    var duration: Int? = nil
 }

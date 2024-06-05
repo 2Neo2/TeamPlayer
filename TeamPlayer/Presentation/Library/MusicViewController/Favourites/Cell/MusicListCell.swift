@@ -26,7 +26,6 @@ final class MusicListCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = Constants.Font.getFont(name: "Black", size: 13)
         label.textColor = .black
-        label.numberOfLines = 0
         return label
     }()
     
@@ -111,12 +110,13 @@ extension MusicListCell {
         musicImageView.pinBottom(to: self.contentView, 13)
         musicImageView.setWidth(50)
         
-        titleMusicLabel.pinLeft(to: musicImageView.trailingAnchor, 11)
+        titleMusicLabel.pinLeft(to: musicImageView.trailingAnchor, 9)
         titleMusicLabel.pinTop(to: self.contentView, 14)
-        titleMusicLabel.setWidth(200)
+        titleMusicLabel.setWidth(160)
         
         artistLabel.pinTop(to: titleMusicLabel.bottomAnchor, 2)
-        artistLabel.pinLeft(to: musicImageView.trailingAnchor, 11)
+        artistLabel.pinLeft(to: musicImageView.trailingAnchor, 9)
+        artistLabel.setWidth(160)
         
         removePlaylistButton.pinCenterY(to: self.contentView)
         removePlaylistButton.pinRight(to: self.contentView, 15)

@@ -216,10 +216,9 @@
 		0C94BBA82BC4275F0078968B /* CreateRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C94BBA72BC4275F0078968B /* CreateRoomViewController.swift */; };
 		0C96ABCA2BD52E9100403017 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 0C96ABC92BD52E9100403017 /* ProgressHUD */; };
 		0C96ABCD2BD52F9C00403017 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C96ABCC2BD52F9C00403017 /* UIBlockingProgressHUD.swift */; };
-		0C96ABD12BD5339900403017 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0C96ABD02BD5339900403017 /* SnapKit */; };
-		0C96ABD32BD5339900403017 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 0C96ABD22BD5339900403017 /* SnapKit-Dynamic */; };
 		0C96ABD52BD533AD00403017 /* SnackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C96ABD42BD533AD00403017 /* SnackBar.swift */; };
 		0C96ABD72BD533CE00403017 /* SnackBarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C96ABD62BD533CE00403017 /* SnackBarStyle.swift */; };
+		0C96C59E2C0F1E8B0083F7C7 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0C96C59D2C0F1E8B0083F7C7 /* SnapKit */; };
 		0CA848552C02A85D00A9826F /* SearchRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA848542C02A85D00A9826F /* SearchRoomViewController.swift */; };
 		0CA848572C02A86600A9826F /* SearchRoomPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA848562C02A86600A9826F /* SearchRoomPresenter.swift */; };
 		0CA8485B2C02A87C00A9826F /* SearchRoomConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA8485A2C02A87C00A9826F /* SearchRoomConfigurator.swift */; };
@@ -493,12 +492,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C96ABD12BD5339900403017 /* SnapKit in Frameworks */,
 				0C7AA7672BCBDCEC001E88D3 /* SwiftKeychainWrapper in Frameworks */,
 				0C96ABCA2BD52E9100403017 /* ProgressHUD in Frameworks */,
-				0C96ABD32BD5339900403017 /* SnapKit-Dynamic in Frameworks */,
 				0CBFAD342BD576E300C4AD6A /* Kingfisher in Frameworks */,
 				0C102E822C0874EC009FEF1F /* Starscream in Frameworks */,
+				0C96C59E2C0F1E8B0083F7C7 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1012,13 +1010,6 @@
 			path = Music;
 			sourceTree = "<group>";
 		};
-		0C7A6F0F2BEEED7200F02776 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
 		0C7A6F102BEFC57E00F02776 /* MiniPlayerService */ = {
 			isa = PBXGroup;
 			children = (
@@ -1149,7 +1140,6 @@
 		0C828F7C2BEA4B45001AA93A /* Downloaded */ = {
 			isa = PBXGroup;
 			children = (
-				0C7A6F0F2BEEED7200F02776 /* Cells */,
 				0C7A6EF32BEB91D900F02776 /* DownloadedViewController.swift */,
 				0C7A6EF52BEB91E600F02776 /* DownloadedPresenter.swift */,
 				0C7A6EF72BEB91F200F02776 /* DownloadedRouter.swift */,
@@ -1534,10 +1524,9 @@
 			packageProductDependencies = (
 				0C7AA7662BCBDCEC001E88D3 /* SwiftKeychainWrapper */,
 				0C96ABC92BD52E9100403017 /* ProgressHUD */,
-				0C96ABD02BD5339900403017 /* SnapKit */,
-				0C96ABD22BD5339900403017 /* SnapKit-Dynamic */,
 				0CBFAD332BD576E300C4AD6A /* Kingfisher */,
 				0C102E812C0874EC009FEF1F /* Starscream */,
+				0C96C59D2C0F1E8B0083F7C7 /* SnapKit */,
 			);
 			productName = TeamPlayer;
 			productReference = 0C5DE3722BBA14AB00F255D1 /* TeamPlayer.app */;
@@ -1570,9 +1559,9 @@
 			packageReferences = (
 				0C7AA7652BCBDCEC001E88D3 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 				0C96ABC82BD52E9100403017 /* XCRemoteSwiftPackageReference "ProgressHUD" */,
-				0C96ABCF2BD5339900403017 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				0CBFAD322BD576E300C4AD6A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				0C102E802C0874EC009FEF1F /* XCRemoteSwiftPackageReference "Starscream" */,
+				0C96C59C2C0F1E8B0083F7C7 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 0C5DE3732BBA14AB00F255D1 /* Products */;
 			projectDirPath = "";
@@ -1975,9 +1964,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A9CGQR2JFS;
+				DEVELOPMENT_TEAM = FUD5CPHJR9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TeamPlayer/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TeamPlayer;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -2007,9 +1998,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A9CGQR2JFS;
+				DEVELOPMENT_TEAM = FUD5CPHJR9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TeamPlayer/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TeamPlayer;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -2080,7 +2073,7 @@
 				minimumVersion = 14.1.1;
 			};
 		};
-		0C96ABCF2BD5339900403017 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		0C96C59C2C0F1E8B0083F7C7 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -2114,15 +2107,10 @@
 			package = 0C96ABC82BD52E9100403017 /* XCRemoteSwiftPackageReference "ProgressHUD" */;
 			productName = ProgressHUD;
 		};
-		0C96ABD02BD5339900403017 /* SnapKit */ = {
+		0C96C59D2C0F1E8B0083F7C7 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0C96ABCF2BD5339900403017 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 0C96C59C2C0F1E8B0083F7C7 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		0C96ABD22BD5339900403017 /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0C96ABCF2BD5339900403017 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
 		};
 		0CBFAD332BD576E300C4AD6A /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
