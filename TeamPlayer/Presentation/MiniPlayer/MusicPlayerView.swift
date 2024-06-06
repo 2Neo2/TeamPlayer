@@ -202,7 +202,6 @@ final class MusicPlayerView: UIView,
                 if self.musicPlayButton.isSelected == false {
                     self.musicPlayButton.isSelected.toggle()
                     self.musicPlayButtonIcon.image = Constants.Images.pauseIcon
-//                    self.interactor.loadPlay(Model.Play.Request())
                     self.startUpdatingProgressView()
                     self.isPlay = true
                 }

@@ -266,6 +266,7 @@ final class SelectedRoomViewController: UIViewController {
     var currentRoom: RoomViewModel?
     private var messages = [ChatMessageViewModel]()
     private var tracks = [TrackViewModel]()
+    private var currentTrackIndex: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -403,6 +404,18 @@ final class SelectedRoomViewController: UIViewController {
     @objc
     private func handleTapOutsideTextField() {
         view.endEditing(true)
+    }
+    
+    func notifyObserves() {
+        NotificationCenter.default.post(name: NotificationCenter.updateHomveVC, object: nil)
+    }
+    
+    func notifyRoomObserves() {
+        NotificationCenter.default.post(name: NotificationCenter.updateRoomVC, object: nil)
+    }
+    
+    func notifyLibraryObserves() {
+        NotificationCenter.default.post(name: NotificationCenter.updateLibraryVC, object: nil)
     }
 }
 

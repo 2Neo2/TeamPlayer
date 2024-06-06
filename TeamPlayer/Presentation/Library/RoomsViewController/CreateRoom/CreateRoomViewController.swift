@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol CreateRoomVCProtocol: AnyObject {
-    func updateTableView()
-}
-
 final class CreateRoomViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -113,7 +109,6 @@ final class CreateRoomViewController: UIViewController {
     }()
     
     var presenter: CreateRoomPresenter?
-    weak var delegate: CreateRoomVCProtocol?
     private var imageData: String? = nil
     
     override func viewDidLoad() {
@@ -161,6 +156,12 @@ final class CreateRoomViewController: UIViewController {
     @objc
     private func handleTapOutsideTextField() {
         view.endEditing(true)
+    }
+    
+    func notifyObserves() {
+        NotificationCenter.default.post(name: NotificationCenter.updateHomveVC, object: nil)
+        NotificationCenter.default.post(name: NotificationCenter.updateRoomVC, object: nil)
+        NotificationCenter.default.post(name: NotificationCenter.updateLibraryVC, object: nil)
     }
 }
 

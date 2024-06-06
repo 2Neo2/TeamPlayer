@@ -32,6 +32,7 @@ final class CreatePlaylistPresenter: CreatePlaylistPresenterProtocol {
                 DispatchQueue.main.async {
                     self?.hideView()
                     self?.view?.delegate?.playlistCreated()
+                    self?.view?.notifyObserves()
                 }
             case .failure(let error):
                 print(error.localizedDescription)

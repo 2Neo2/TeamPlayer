@@ -68,13 +68,13 @@ class PlaylistItemViewCell: UICollectionViewCell {
     func configureCell(with model: PlaylistViewModel) {
         playlistTitleLabel.text = model.name
         infoTitleLabel.text = "Плейлист: \(model.description)"
+        self.currentModel = model
         if let imageData = model.imageData, imageData.isEmpty == false {
             if let data = Data(base64Encoded: imageData) {
                 playlistImageView.image = UIImage(data: data)
                 return
             }
         }
-        self.currentModel = model
         playlistImageView.image = Constants.Images.playlistDefault
     }
     

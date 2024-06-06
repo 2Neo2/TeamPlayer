@@ -61,7 +61,7 @@ open class SnackBar: UIView, SnackBarPresentable {
     private func constraintSuperView(with view: UIView) {
         view.setupSubview(self) {
             $0.makeConstraints {
-                $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(200)
+                $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(400)
                 $0.leading.equalTo(view.safeAreaLayoutGuide).offset(style.padding)
                 $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-style.padding)
             }
@@ -133,7 +133,7 @@ open class SnackBar: UIView, SnackBarPresentable {
     
     @objc public func dismiss() {
         invalidDismissTimer()
-        animation(with: 200, completion: { _ in
+        animation(with: 400, completion: { _ in
             self.removeFromSuperview()
         })
     }

@@ -224,6 +224,10 @@ final class MusicViewController: UIViewController {
             self.view.layoutIfNeeded()
         }
     }
+    
+    func notifyObserves() {
+        NotificationCenter.default.post(name: NotificationCenter.updateLibraryVC, object: nil)
+    }
 }
 
 extension MusicViewController {
@@ -256,7 +260,12 @@ extension MusicViewController: UICollectionViewDelegate, UICollectionViewDataSou
         let model = playlists[indexPath.row]
         cell.configureCell(with: model)
         cell.deleteAction = { [weak self] in
-            self?.presenter?.removePlaylist(with: model.id)
+            guard let self = self else { return }
+            if model.name.lowercased().contains("playlist") {
+                SnackBar.make(in: self.view, message: "Нельзя удалить плейлист сообщества!", duration: .lengthLong).show()
+            } else {
+                self.presenter?.removePlaylist(with: model.id)
+            }
         }
         return cell
     }

@@ -47,6 +47,7 @@ final class MusicPresenter: MusicPresenterProtocol {
             switch result {
             case .success(_):
                 self?.fetchData()
+                self?.view?.notifyObserves()
             case .failure(let error):
                 print(error.localizedDescription)
                 break

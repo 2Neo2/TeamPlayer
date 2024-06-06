@@ -42,7 +42,12 @@ final class SelectedRoomRouter: SelectedRoomRouterProtocol {
     
     func hideView() {
         guard let view else {return}
-        
+        if let value = MiniPlayerService.shared.markDirty {
+            if value {
+                MiniPlayerService.shared.markDirty = false
+                MiniPlayerService.shared.pauseTrack()
+            }
+        }
         view.navigationController?.popViewController(animated: true)
     }
 }

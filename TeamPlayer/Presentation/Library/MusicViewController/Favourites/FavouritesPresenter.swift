@@ -8,7 +8,6 @@
 import Foundation
 
 protocol FavouritesPresenterProtocol {
-    func openMusicFlow()
     func fetchData()
 }
 
@@ -16,11 +15,6 @@ final class FavouritesPresenter: FavouritesPresenterProtocol {
     weak var view: FavouritesViewController?
     var router: FavouritesRouter?
     private var yandexService = YandexMusicService()
-    
-    
-    func openMusicFlow() {
-        router?.openMusicFlow()
-    }
     
     func fetchData() {
         UIBlockingProgressHUD.show()

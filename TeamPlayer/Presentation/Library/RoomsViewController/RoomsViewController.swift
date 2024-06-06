@@ -104,7 +104,6 @@ final class RoomsViewController: UIViewController {
         insertViews()
         setupViews()
         layoutViews()
-        
         presenter?.fetchData()
     }
     
@@ -121,6 +120,11 @@ final class RoomsViewController: UIViewController {
     @objc
     private func joinButtonTapped() {
         presenter?.openJoinFlow()
+    }
+    
+    @objc
+    private func dataDidUpdate(_ notification: Notification) {
+        self.presenter?.fetchData()
     }
 }
 
@@ -145,6 +149,8 @@ extension RoomsViewController {
         if self.fromAnotherView! {
             self.createCustomTabBarLeftButton()
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(dataDidUpdate(_:)), name: NotificationCenter.updateRoomVC, object: nil)
     }
     
     private func layoutViews() {
@@ -159,7 +165,7 @@ extension RoomsViewController {
             accountImageView.centerXAnchor.constraint(equalTo: accountButton.centerXAnchor),
             accountImageView.centerYAnchor.constraint(equalTo: accountButton.centerYAnchor),
             
-            titleLabel.leadingAnchor.constraint(equalTo: accountButton.trailingAnchor, constant: 20.0),
+            titleLabel.leadingAnchor.constraint(equalTo: accountButton.trailingAnchor, constant: 10.0),
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: self.fromAnotherView! ? 115 : 75),
             
             plusButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30.0),
@@ -231,19 +237,6 @@ extension RoomsViewController {
         }
         
         self.tableView.reloadData()
-    }
-}
-
-extension RoomsViewController: CreateRoomVCProtocol {
-    func updateTableView() {
-        SnackBar.make(in: self.view, message: "Комната создана! Код приглашения скопирован!", duration: .lengthLong).show()
-        presenter?.fetchData()
-    }
-}
-
-extension RoomsViewController: JoinVCProtocol {
-    func updateRooms() {
-        
     }
 }
 

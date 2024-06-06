@@ -127,6 +127,10 @@ final class CreatePlaylistViewController: UIViewController {
     private func handleTapOutsideTextField() {
         view.endEditing(true)
     }
+    
+    func notifyObserves() {
+        NotificationCenter.default.post(name: NotificationCenter.updateLibraryVC, object: nil)
+    }
 }
 
 extension CreatePlaylistViewController {

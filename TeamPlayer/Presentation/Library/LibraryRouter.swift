@@ -24,10 +24,34 @@ final class LibraryRouter: LibraryRouterProtocol {
         view.navigationController?.pushViewController(presentVC, animated: true)
     }
     
+    func openFavouritesFlow() {
+        guard let view else {return}
+        
+        let presentVC = FavouritesConfigurator.configure()
+        
+        view.navigationController?.pushViewController(presentVC, animated: true)
+    }
+    
     func openRoomsFlow() {
         guard let view else {return}
         
         let presentVC = RoomsConfigurator.configure(isFromAnotherView: true)
+        
+        view.navigationController?.pushViewController(presentVC, animated: true)
+    }
+    
+    func openSingleRoomFlow(with model: RoomViewModel) {
+        guard let view else {return}
+        
+        let presentVC = SelectedRoomConfigurator.configure(with: model)
+        
+        view.navigationController?.pushViewController(presentVC, animated: true)
+    }
+    
+    func openSinglePlaylistFlow(with model: PlaylistViewModel) {
+        guard let view else {return}
+        
+        let presentVC = PlaylistConfigurator.configure(with: model)
         
         view.navigationController?.pushViewController(presentVC, animated: true)
     }

@@ -41,6 +41,9 @@ final class SelectedRoomPresenter: SelectedRoomPresenterProtocol {
                 switch result {
                 case .success(_):
                     DispatchQueue.main.async {
+                        self?.view?.notifyObserves()
+                        self?.view?.notifyRoomObserves()
+                        self?.view?.notifyLibraryObserves()
                         self?.hideView()
                     }
                 case .failure(let error):
@@ -53,6 +56,8 @@ final class SelectedRoomPresenter: SelectedRoomPresenterProtocol {
                 switch result {
                 case .success(_):
                     DispatchQueue.main.async {
+                        self?.view?.notifyRoomObserves()
+                        self?.view?.notifyLibraryObserves()
                         self?.hideView()
                     }
                 case .failure(let error):

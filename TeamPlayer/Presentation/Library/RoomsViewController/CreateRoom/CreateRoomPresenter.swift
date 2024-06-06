@@ -37,7 +37,8 @@ final class CreateRoomPresenter: CreateRoomPresenterProtocol {
                 self?.pasteboard.string = code
                 DispatchQueue.main.async {
                     self?.hideView()
-                    self?.view?.delegate?.updateTableView()
+                    self?.view?.notifyObserves()
+//                    self?.view?.delegate?.updateTableView()
                 }
             case .failure(let error):
                 print(error)

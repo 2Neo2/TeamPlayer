@@ -8,13 +8,12 @@
 import UIKit
 
 protocol JoinConfiguratorProtocol {
-    static func configure(with delegate: JoinVCProtocol) -> UIViewController
+    static func configure() -> UIViewController
 }
 
 final class JoinConfigurator: JoinConfiguratorProtocol {
-    static func configure(with delegate: JoinVCProtocol) -> UIViewController {
+    static func configure() -> UIViewController {
         let view = JoinViewController()
-        view.delegate = delegate
         let router = JoinRouter()
         let presenter = JoinPresenter()
         

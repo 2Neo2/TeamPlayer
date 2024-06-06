@@ -130,10 +130,3 @@ final class MiniPlayerService: MiniPlayerProtocol {
         NotificationCenter.default.post(name: NotificationCenter.miniPlayerOpen, object: nil)
     }
 }
-
-
-extension NotificationCenter {
-    static let miniPlayerDidUpdate = Notification.Name("miniPlayerDidUpdate")
-    static let miniPlayerHide = Notification.Name("miniPlayerHide")
-    static let miniPlayerOpen = Notification.Name("miniPlayerOpen")
-}

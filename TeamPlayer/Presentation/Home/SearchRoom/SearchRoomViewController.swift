@@ -155,7 +155,7 @@ extension SearchRoomViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let result = searchResult[indexPath.row]
-        MiniPlayerService.shared.markDirty
+        MiniPlayerService.shared.markDirty = true
         presenter?.openSingleFlow(with: result)
     }
     

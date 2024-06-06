@@ -36,7 +36,7 @@ final class RoomsRouter: RoomsRouterProtocol {
     func openJoinFlow() {
         guard let view else {return}
         
-        let presentVC = JoinConfigurator.configure(with: view.self)
+        let presentVC = JoinConfigurator.configure()
         presentVC.modalPresentationStyle = .currentContext
         view.present(presentVC, animated: true)
     }
@@ -44,7 +44,7 @@ final class RoomsRouter: RoomsRouterProtocol {
     func openCreateFlow() {
         guard let view else {return}
         
-        let presentVC = CreateRoomConfigurator.configure(with: view.self)
+        let presentVC = CreateRoomConfigurator.configure()
         presentVC.modalPresentationStyle = .currentContext
         view.present(presentVC, animated: true)
     }

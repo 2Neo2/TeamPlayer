@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum HomeSectionType{
+enum HomeSectionType {
     case publicRooms(viewModels: [PublicRoomsCellViewModel])
     case newReleases(viewModels: [NewReleasesCellViewModel])
     
@@ -19,6 +19,12 @@ enum HomeSectionType{
             return "Новые треки в этом месяце"
         }
     }
+}
+
+enum Category {
+    case all
+    case music
+    case rooms
 }
 
 final class HomeViewController: UIViewController {
@@ -107,6 +113,7 @@ final class HomeViewController: UIViewController {
     private var musicButtonLeadingConstraint = NSLayoutConstraint()
     private var roomButtonLeadingConstraint = NSLayoutConstraint()
     var sections = [HomeSectionType]()
+    private var filteredSections = [HomeSectionType]()
     
     private func configureMainCollectionView() {
         mainContentCollectionView.register(
@@ -116,10 +123,6 @@ final class HomeViewController: UIViewController {
         mainContentCollectionView.register(
             PublicRoomsCollectionViewCell.self,
             forCellWithReuseIdentifier: PublicRoomsCollectionViewCell.identifier
-        )
-        mainContentCollectionView.register(
-            ArtistRoomsCollectionViewCell.self,
-            forCellWithReuseIdentifier: ArtistRoomsCollectionViewCell.identifier
         )
         mainContentCollectionView.register(
             TitleHeaderCollectionReusableView.self,
@@ -138,14 +141,8 @@ final class HomeViewController: UIViewController {
         layoutViews()
         
         configureMainCollectionView()
-        
         presenter?.fetchData()
     }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//        presenter?.fetchData()
-//    }
     
     @objc
     private func accountButtonTapped() {
@@ -158,6 +155,8 @@ final class HomeViewController: UIViewController {
             self.allButton.backgroundColor = Constants.Colors.general
             self.musicButton.backgroundColor = Constants.Colors.generalLight
             self.roomButton.backgroundColor = Constants.Colors.generalLight
+            self.filterContent(for: .all)
+            self.updateCollectionViewLayout(for: .all)
         }
     }
     
@@ -167,6 +166,8 @@ final class HomeViewController: UIViewController {
             self.allButton.backgroundColor = Constants.Colors.generalLight
             self.musicButton.backgroundColor = Constants.Colors.general
             self.roomButton.backgroundColor = Constants.Colors.generalLight
+            self.filterContent(for: .music)
+            self.updateCollectionViewLayout(for: .music)
         }
     }
     
@@ -176,6 +177,8 @@ final class HomeViewController: UIViewController {
             self.allButton.backgroundColor = Constants.Colors.generalLight
             self.musicButton.backgroundColor = Constants.Colors.generalLight
             self.roomButton.backgroundColor = Constants.Colors.general
+            self.filterContent(for: .rooms)
+            self.updateCollectionViewLayout(for: .rooms)
         }
     }
     
@@ -197,6 +200,46 @@ final class HomeViewController: UIViewController {
             return
         }
     }
+    
+    private func filterContent(for category: Category) {
+        switch category {
+        case .all:
+            filteredSections = sections
+        case .music:
+            filteredSections = sections.filter {
+                if case .newReleases = $0 { return true }
+                return false
+            }
+        case .rooms:
+            filteredSections = sections.filter {
+                if case .publicRooms = $0 { return true }
+                return false
+            }
+        }
+        mainContentCollectionView.reloadData()
+    }
+    
+    private func updateCollectionViewLayout(for category: Category) {
+        switch category {
+        case .music:
+            mainContentCollectionView.setCollectionViewLayout(
+                UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
+                    return HomeViewController.createMusicSectionLayout()
+                }, animated: true
+            )
+        default:
+            mainContentCollectionView.setCollectionViewLayout(
+                UICollectionViewCompositionalLayout { (sectionIndex, environment) -> NSCollectionLayoutSection? in
+                    return HomeViewController.createSectionLayout(section: sectionIndex)
+                }, animated: true
+            )
+        }
+    }
+    
+    @objc
+    private func dataDidUpdate(_ notification: Notification) {
+        self.presenter?.fetchData()
+    }
 }
 
 extension HomeViewController {
@@ -213,6 +256,7 @@ extension HomeViewController {
     
     private func setupViews() {
         view.backgroundColor = Constants.Colors.backgroundColor
+        NotificationCenter.default.addObserver(self, selector: #selector(dataDidUpdate(_:)), name: NotificationCenter.updateHomveVC, object: nil)
     }
     
     private func layoutViews() {
@@ -251,7 +295,7 @@ extension HomeViewController {
         ratingImageView.setWidth(30)
         
         
-        mainContentCollectionView.pinTop(to: accountButton.bottomAnchor, 20)
+        mainContentCollectionView.pinTop(to: accountButton.bottomAnchor, 10)
         mainContentCollectionView.pinLeft(to: view, 15)
         mainContentCollectionView.pinRight(to: view, 15)
         mainContentCollectionView.pinBottom(to: view.bottomAnchor, 160)
@@ -260,7 +304,7 @@ extension HomeViewController {
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let type = sections[section]
+        let type = filteredSections[section]
         
         switch type {
         case .publicRooms(let viewModels):
@@ -271,11 +315,11 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        sections.count
+        filteredSections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let type = sections[indexPath.section]
+        let type = filteredSections[indexPath.section]
         
         switch type {
         case .newReleases(let viewModels):
@@ -287,7 +331,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let type = sections[indexPath.section]
+        let type = filteredSections[indexPath.section]
         
         switch type {
         case .newReleases(let viewModels):
@@ -297,7 +341,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ) as? NewReleasesCollectionViewCell else {
                 return UICollectionViewCell()
             }
-            
             let model = viewModels[indexPath.row]
             cell.configure(with: model)
             return cell
@@ -315,9 +358,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func configureModels(publicRooms: [PublicRoomsCellViewModel], newReleases: [NewReleasesCellViewModel]) {
-        sections.append(.publicRooms(viewModels: publicRooms))
-        sections.append(.newReleases(viewModels: newReleases))
+        sections = [
+            .publicRooms(viewModels: publicRooms),
+            .newReleases(viewModels: newReleases)
+        ]
         
+        self.filteredSections = sections
         mainContentCollectionView.reloadData()
         UIBlockingProgressHUD.dismiss()
     }
@@ -335,11 +381,46 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(collectionHeaderSectionTapped))
         header.addGestureRecognizer(tapGestureRecognizer)
         
-        let title = sections[section].title
+        let title = filteredSections[section].title
         
         header.configure(with: title)
         
         return header
+    }
+    
+    static func createMusicSectionLayout() -> NSCollectionLayoutSection {
+        let supplementaryViews = [
+            NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .absolute(50)
+                ),
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top)
+        ]
+        
+        let item = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize (
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
+            )
+        )
+        
+        item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+        
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize:
+                NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .absolute(80)
+                ),
+            subitem: item,
+            count: 1
+        )
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = supplementaryViews
+        return section
     }
     
     static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {

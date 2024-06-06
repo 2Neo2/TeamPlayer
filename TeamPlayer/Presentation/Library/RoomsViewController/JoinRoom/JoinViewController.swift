@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol JoinVCProtocol: AnyObject {
-    func updateRooms()
-}
-
 final class JoinViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -65,7 +61,6 @@ final class JoinViewController: UIViewController {
     }()
     
     var presenter: JoinPresenter?
-    weak var delegate: JoinVCProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +83,11 @@ final class JoinViewController: UIViewController {
         }
         
         presenter?.fetchRoom(with: codeTextField.text!)
-        delegate?.updateRooms()
+    }
+    
+    func notifyObserves() {
+        NotificationCenter.default.post(name: NotificationCenter.updateRoomVC, object: nil)
+        NotificationCenter.default.post(name: NotificationCenter.updateLibraryVC, object: nil)
     }
     
     @objc

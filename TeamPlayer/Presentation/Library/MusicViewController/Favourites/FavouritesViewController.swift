@@ -33,23 +33,6 @@ final class FavouritesViewController: UIViewController {
         return label
     }()
     
-    private lazy var plusButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = Constants.Colors.backgroundColor
-        button.backgroundColor = .clear
-        button.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var plusImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = Constants.Images.plusButton
-        imageView.tintColor = .black
-        return imageView
-    }()
-    
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,20 +56,13 @@ final class FavouritesViewController: UIViewController {
         
         presenter?.fetchData()
     }
-    
-    @objc
-    private func plusButtonTapped() {
-        presenter?.openMusicFlow()
-    }
 }
 
 extension FavouritesViewController {
     private func insertViews() {
         favouritesView.addSubview(heartImageView)
-        plusButton.addSubview(plusImageView)
         view.addSubview(favouritesView)
         view.addSubview(favouritesTitleLabel)
-        view.addSubview(plusButton)
         view.addSubview(tableView)
     }
     
@@ -97,12 +73,6 @@ extension FavouritesViewController {
     
     private func layoutViews() {
         NSLayoutConstraint.activate([
-            plusButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 68.0),
-            plusButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30.0),
-            
-            plusImageView.heightAnchor.constraint(equalToConstant: 35),
-            plusImageView.widthAnchor.constraint(equalToConstant: 35),
-            
             favouritesView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100.0),
             favouritesView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 74.0),
             favouritesView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -74.0),

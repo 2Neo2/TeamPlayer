@@ -8,13 +8,12 @@
 import UIKit
 
 protocol CreateRoomConfiguratorProtocol {
-    static func configure(with delegate: CreateRoomVCProtocol) -> UIViewController
+    static func configure() -> UIViewController
 }
 
 final class CreateRoomConfigurator: CreateRoomConfiguratorProtocol {
-    static func configure(with delegate: CreateRoomVCProtocol) -> UIViewController {
+    static func configure() -> UIViewController {
         let view = CreateRoomViewController()
-        view.delegate = delegate
         let router = CreateRoomRouter()
         let presenter = CreateRoomPresenter()
         

@@ -30,6 +30,7 @@ final class JoinPresenter: JoinPresenterProtocol {
             case .success(let model):
                 DispatchQueue.main.async {
                     self?.hideView()
+                    self?.view?.notifyObserves()
                 }
             case .failure(let error):
                 print(error)
